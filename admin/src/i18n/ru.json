@@ -1,0 +1,8 @@
+{
+	"adguard adapter settings": "Настройки адаптера для adguard",
+	"serverAddress": "Адрес сервера",
+	"serverPort": "Порт сервера",
+	"pollInterval": "Интервал опроса (сек.)",
+	"user": "Пользователь",
+	"password": "Пароль"
+}

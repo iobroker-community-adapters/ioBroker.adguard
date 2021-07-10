@@ -1,0 +1,8 @@
+{
+	"adguard adapter settings": "adguard的适配器设置",
+	"serverAddress": "服务器地址",
+	"serverPort": "服务器端口",
+	"pollInterval": "轮询间隔（秒）",
+	"user": "用户",
+	"password": "密码"
+}

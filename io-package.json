@@ -1,0 +1,102 @@
+{
+	"common": {
+		"name": "adguard",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"titleLang": {
+			"en": "AdGuard ",
+			"de": "AdGuard",
+			"ru": "AdGuard",
+			"pt": "AdGuard",
+			"nl": "AdGuard",
+			"fr": "AdGuard",
+			"it": "AdGuard",
+			"es": "AdGuard",
+			"pl": "AdGuard",
+			"zh-cn": "广告卫士"
+		},
+		"desc": {
+			"en": "AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental control (adult content blocking) capabilities. The AdGuard integration allows you to control and monitor your AdGuard Home instance in ioBroker.",
+			"de": "AdGuard Home ist ein netzwerkweiter DNS-Server zum Blockieren von Werbung und Trackern mit Funktionen zur Kindersicherung (Blockierung von Inhalten für Erwachsene). ",
+			"ru": "AdGuard Home - это общесетевой DNS-сервер, блокирующий рекламу и трекер, с возможностями родительского контроля (блокировка контента для взрослых). ",
+			"pt": "O AdGuard Home é um servidor DNS de bloqueio de rastreadores e anúncios em toda a rede com recursos de controle dos pais (bloqueio de conteúdo adulto). ",
+			"nl": "AdGuard Home is een netwerkbrede advertentie- en trackerblokkerende DNS-server met mogelijkheden voor ouderlijk toezicht (blokkering van inhoud voor volwassenen). ",
+			"fr": "AdGuard Home est un serveur DNS bloquant les publicités et les traqueurs à l'échelle du réseau avec des capacités de contrôle parental (blocage de contenu pour adultes). ",
+			"it": "AdGuard Home è un server DNS che blocca annunci e tracker su tutta la rete con funzionalità di controllo genitori (blocco dei contenuti per adulti). ",
+			"es": "AdGuard Home es un servidor DNS de bloqueo de rastreadores y anuncios en toda la red con capacidades de control parental (bloqueo de contenido para adultos). ",
+			"pl": "AdGuard Home to serwer DNS blokujący reklamy i moduły śledzące w całej sieci z funkcjami kontroli rodzicielskiej (blokowanie treści dla dorosłych). ",
+			"zh-cn": "AdGuard Home 是具有家长控制（成人内容阻止）功能的全网络广告和跟踪器阻止 DNS 服务器。 "
+		},
+		"authors": [
+			"Dennis Rathjen <dennis.rathjen@outlook.de>"
+		],
+		"keywords": [
+			"AdGuard",
+			"DNS",
+			"tracker-blocking",
+			"ad-blocking"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"icon": "adguard.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/o0shojo0o/ioBroker.adguard/master/admin/adguard.png",
+		"readme": "https://github.com/o0shojo0o/ioBroker.adguard/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "network",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"serverAddress": "",
+		"serverPort": "80",
+		"pollInterval": "10",
+		"user": "",
+		"password": ""
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}

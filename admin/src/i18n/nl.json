@@ -1,0 +1,8 @@
+{
+	"adguard adapter settings": "Adapterinstellingen voor adguard",
+	"serverAddress": "Server adres",
+	"serverPort": "Server poort",
+	"pollInterval": "Poll-interval (sec.)",
+	"user": "Gebruiker",
+	"password": "Wachtwoord"
+}
