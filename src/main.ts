@@ -4,6 +4,7 @@
 
 import * as utils from "@iobroker/adapter-core";
 import axios, { AxiosRequestConfig } from "axios";
+import { MyObjectsDefinitions, objectDefinitions } from "./lib/object_definitions";
 
 let adapter: ioBroker.Adapter;
 let currentTimeout: NodeJS.Timeout;
@@ -20,12 +21,9 @@ class Adguard extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 	}
 
-	/**
-	 * Is called when databases are connected and adapter received configuration.
-	 */
 	private async onReady(): Promise<void> {
 		adapter = this;
-		this.setState("info.connection", false, true);
+		setObjectAndState("info.connection", "info.connection", null, false);
 		this.log.info("config serverAddress: " + this.config.serverAddress);
 		this.log.info("config pollInterval: " + this.config.pollInterval);
 		this.log.info("config user: " + this.config.user);
@@ -36,9 +34,6 @@ class Adguard extends utils.Adapter {
 		intervalTick(this.config.serverAddress, this.config.pollInterval * 1000);
 	}
 
-	/**
-	 * Is called when adapter shuts down - callback has to be called under any circumstances!
-	 */
 	private onUnload(callback: () => void): void {
 		try {
 			clearTimeout(currentTimeout);
@@ -51,20 +46,30 @@ class Adguard extends utils.Adapter {
 }
 
 async function intervalTick(serverAddress: string, pollInterval: number): Promise<void> {
-	adapter.setState("info.connection", true, true);
+	setObjectAndState("info.connection", "info.connection", null, true);
 	if (currentTimeout) {
 		clearTimeout(currentTimeout);
 	}
 	const apiUrl = new URL("control/stats", serverAddress);
 	try {
 		const response = (await axios.get(apiUrl.href,axiosOptions)).data;
-		adapter.log.info(`response	: ${JSON.stringify(response)}`);
+		// Channel erstellen
+		await setObjectAndState("stats", "stats", null, null);
+
+		// SiteStats Propertys durchlaufen und in State schreiben
+		for (const key in response) {
+			if (Object.prototype.hasOwnProperty.call(response, key)) {
+				let value = response[key];
+				if (key == "avg_processing_time"){
+					value = Math.round(Number(response[key]) * 1000);
+				}
+				setObjectAndState(`stats.${key}`, `stats.${key}`, null, value);
+			}
+		}
+
 	} catch (e) {
 		throwWarn(e);
 	}
-
-
-
 
 	currentTimeout = setTimeout(async () => {
 		intervalTick(serverAddress, pollInterval);
@@ -88,6 +93,30 @@ function throwWarn(error: any): void {
 	}
 
 	adapter.log.warn(`No connection to the server could be established. (${errorMessage})`);
-	adapter.setStateChanged("info.connection", false, true);
+	setObjectAndState("info.connection", "info.connection", null, false);
 }
 
+async function setObjectAndState(objectId: string, stateId: string, stateName: string | null, value: any | null): Promise<void> {
+	const obj: MyObjectsDefinitions = objectDefinitions[objectId];
+
+	if (!obj) {
+		return;
+	}
+
+	if (stateName !== null) {
+		obj.common.name = stateName;
+	}
+
+	await adapter.setObjectNotExistsAsync(stateId, {
+		type: obj.type,
+		common: JSON.parse(JSON.stringify(obj.common)),
+		native: JSON.parse(JSON.stringify(obj.native)),
+	});
+
+	if (value !== null) {
+		adapter.setStateChangedAsync(stateId, {
+			val: value,
+			ack: true,
+		});
+	}
+}

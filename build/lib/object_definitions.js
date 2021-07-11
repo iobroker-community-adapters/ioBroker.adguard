@@ -2,6 +2,25 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.objectDefinitions = void 0;
 const objectDefinitions = {
+    "info": {
+        type: "channel",
+        common: {
+            name: "Information",
+        },
+        native: {},
+    },
+    "info.connection": {
+        "type": "state",
+        "common": {
+            "role": "indicator.connected",
+            "name": "Device or service connected",
+            "type": "boolean",
+            "read": true,
+            "write": false,
+            "def": false
+        },
+        native: {},
+    },
     "stats": {
         type: "channel",
         common: {
@@ -9,7 +28,7 @@ const objectDefinitions = {
         },
         native: {},
     },
-    "stats.dns_queries": {
+    "stats.num_dns_queries": {
         type: "state",
         common: {
             name: "Number of DNS queries",
@@ -20,21 +39,10 @@ const objectDefinitions = {
         },
         native: {},
     },
-    "stats.blocked_filtering": {
+    "stats.num_blocked_filtering": {
         type: "state",
         common: {
-            name: "Number of blocked DNS queries",
-            role: "valaue",
-            type: "number",
-            write: false,
-            read: true,
-        },
-        native: {},
-    },
-    "stats.replaced_safebrowsing": {
-        type: "state",
-        common: {
-            name: "Number of requests replaced by safe browsing",
+            name: "Number of blocked by filtering DNS queries",
             role: "value",
             type: "number",
             write: false,
@@ -42,10 +50,10 @@ const objectDefinitions = {
         },
         native: {},
     },
-    "sites.site.actions": {
+    "stats.num_replaced_safebrowsing": {
         type: "state",
         common: {
-            name: "Actions last 3 minutes",
+            name: "Number of blocked by safe browsing",
             role: "value",
             type: "number",
             write: false,
@@ -53,10 +61,10 @@ const objectDefinitions = {
         },
         native: {},
     },
-    "sites.site.visitors": {
+    "stats.num_replaced_safesearch": {
         type: "state",
         common: {
-            name: "Visitors last 3 minutes",
+            name: "Number of safe searches enforced",
             role: "value",
             type: "number",
             write: false,
@@ -64,10 +72,10 @@ const objectDefinitions = {
         },
         native: {},
     },
-    "sites.site.nb_visits": {
+    "stats.num_replaced_parental": {
         type: "state",
         common: {
-            name: "Number of visits today",
+            name: "Number of requests blocked by parental control",
             role: "value",
             type: "number",
             write: false,
@@ -75,25 +83,15 @@ const objectDefinitions = {
         },
         native: {},
     },
-    "sites.site.nb_actions": {
+    "stats.avg_processing_time": {
         type: "state",
         common: {
-            name: "Number of actions today",
+            name: "Average response time of AdGuard’s DNS server in milliseconds",
             role: "value",
             type: "number",
             write: false,
             read: true,
-        },
-        native: {},
-    },
-    "sites.site.nb_pageviews": {
-        type: "state",
-        common: {
-            name: "Number of pageviews today",
-            role: "value",
-            type: "number",
-            write: false,
-            read: true,
+            unit: "ms",
         },
         native: {},
     },
