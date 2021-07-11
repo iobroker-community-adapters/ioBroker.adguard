@@ -39,6 +39,18 @@ const objectDefinitions = {
         },
         native: {},
     },
+    "stats.ratio_blocked_filtering": {
+        type: "state",
+        common: {
+            name: "Ratio of blocked DNS queries",
+            role: "value",
+            type: "number",
+            write: false,
+            read: true,
+            unit: "%",
+        },
+        native: {},
+    },
     "stats.num_blocked_filtering": {
         type: "state",
         common: {

@@ -104,8 +104,11 @@ async function intervalTick(pollInterval: number): Promise<void> {
 			axios.get(new URL("control/filtering/status", serverAddress).href, axiosOptions),
 			axios.get(new URL("control/dns_info", serverAddress).href, axiosOptions)
 		]);
+
 		// Prepare responses in order to be able to use them better
 		const stats = responses[0].data;
+		// Calculate ratio blocks filtering
+		stats.ratio_blocked_filtering = Math.round((stats.num_blocked_filtering / stats.num_dns_queries) * 10000) / 100;
 		const control: any = {
 			safebrowsing: responses[1].data,
 			parental: responses[2].data,
@@ -113,7 +116,6 @@ async function intervalTick(pollInterval: number): Promise<void> {
 			filtering: responses[4].data,
 			adguard_protection: responses[5].data
 		};
-
 
 		// Create channels
 		await setObjectAndState("stats", "stats", null, null);

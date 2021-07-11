@@ -122,6 +122,8 @@ async function intervalTick(pollInterval) {
         ]);
         // Prepare responses in order to be able to use them better
         const stats = responses[0].data;
+        // Calculate ratio blocks filtering
+        stats.ratio_blocked_filtering = Math.round((stats.num_blocked_filtering / stats.num_dns_queries) * 10000) / 100;
         const control = {
             safebrowsing: responses[1].data,
             parental: responses[2].data,
