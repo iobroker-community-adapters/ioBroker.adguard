@@ -9,6 +9,8 @@ import { MyObjectsDefinitions, objectDefinitions } from "./lib/object_definition
 let adapter: ioBroker.Adapter;
 let currentTimeout: NodeJS.Timeout;
 let axiosOptions: AxiosRequestConfig;
+let serverAddress: string;
+
 
 class Adguard extends utils.Adapter {
 
@@ -30,34 +32,44 @@ class Adguard extends utils.Adapter {
 		this.log.debug("config user: " + this.config.user);
 		this.log.debug("config password: *******");
 
+		// Check the server address was passed with http or https
+		if (this.config.serverAddress.startsWith("http")){
+			serverAddress = this.config.serverAddress;
+		} else {
+			// If not append http
+			serverAddress = "http://" + this.config.serverAddress;
+		}
+		// Set authtenfication in axios options
 		axiosOptions = { auth: {username: this.config.user, password: this.config.password}};
-
-		intervalTick(this.config.serverAddress, this.config.pollInterval * 1000);
-
+		// Start interval
+		intervalTick(this.config.pollInterval * 1000);
+		// Subscribe changes in adapter.N.control
 		this.subscribeStates("control.*");
 	}
 
 	async onStateChange(id: string , state: ioBroker.State | null | undefined): Promise<void> {
 		this.log.debug(`onStateChange-> id:${id} state:${JSON.stringify(state)}`);
-
 		// Ingore Message with ack=true
 		try {
 			if (!state || state.ack == true) {
 				this.log.debug(`onStateChange-> ack is true, change does not need to be processed!`);
 				return;
 			}
+			// Process filtering change, for this state the API expects a JSON
 			if (id.endsWith(".filtering")){
 				const jsonBody = JSON.parse(`{"enabled": ${state.val}, "interval": 24}`);
-				await axios.post(new URL("control/filtering/config", this.config.serverAddress).href, jsonBody, axiosOptions);
+				await axios.post(new URL("control/filtering/config", serverAddress).href, jsonBody, axiosOptions);
 			}
+			// Process adguard_protection change, for this state the API expects a JSON
 			else if (id.endsWith(".adguard_protection")){
 				const jsonBody = JSON.parse(`{"protection_enabled": ${state.val}}`);
-				await axios.post(new URL("control/dns_config", this.config.serverAddress).href, jsonBody, axiosOptions);
+				await axios.post(new URL("control/dns_config", serverAddress).href, jsonBody, axiosOptions);
 			}
+			// Process all other changes in control.*, here a simple call is sufficient
 			else {
-				await axios.post(new URL(`control/${id.split(".").slice(-1)[0]}/${state.val == true ? "enable" : "disable"}`, this.config.serverAddress).href, null, axiosOptions);
+				await axios.post(new URL(`control/${id.split(".").slice(-1)[0]}/${state.val == true ? "enable" : "disable"}`, serverAddress).href, null, axiosOptions);
 			}
-
+			// Only set ack to true if the call was successful
 			this.setStateAsync(id, { val: state.val, ack: true });
 		} catch (error) {
 			adapter.log.error(`onStateChange-> error:${error}`);
@@ -72,18 +84,18 @@ class Adguard extends utils.Adapter {
 			callback();
 		}
 	}
-
 }
 
-async function intervalTick(serverAddress: string, pollInterval: number): Promise<void> {
+async function intervalTick(pollInterval: number): Promise<void> {
+	// First set info.connection to true
 	setObjectAndState("info.connection", "info.connection", null, true);
+	// Check if a timeout is still active, delete it if necessary.
 	if (currentTimeout) {
 		clearTimeout(currentTimeout);
 	}
 
 	try {
-		//const response = (await axios.get(apiUrl.href,axiosOptions)).data;
-
+		// API asynchronous pollen
 		const responses = await axios.all([
 			axios.get(new URL("control/stats", serverAddress).href, axiosOptions),
 			axios.get(new URL("control/safebrowsing/status", serverAddress).href, axiosOptions),
@@ -92,7 +104,7 @@ async function intervalTick(serverAddress: string, pollInterval: number): Promis
 			axios.get(new URL("control/filtering/status", serverAddress).href, axiosOptions),
 			axios.get(new URL("control/dns_info", serverAddress).href, axiosOptions)
 		]);
-
+		// Prepare responses in order to be able to use them better
 		const stats = responses[0].data;
 		const control: any = {
 			safebrowsing: responses[1].data,
@@ -103,13 +115,14 @@ async function intervalTick(serverAddress: string, pollInterval: number): Promis
 		};
 
 
-		// Channels erstellen
+		// Create channels
 		await setObjectAndState("stats", "stats", null, null);
 		await setObjectAndState("control", "control", null, null);
-
+		// Create Stats states and set value
 		for (const key in stats) {
 			if (Object.prototype.hasOwnProperty.call(stats, key)) {
 				let value = stats[key];
+				// Convert value of avg_processing_time to miliseconds
 				if (key == "avg_processing_time"){
 					value = Math.round(Number(stats[key]) * 1000);
 				}
@@ -117,7 +130,9 @@ async function intervalTick(serverAddress: string, pollInterval: number): Promis
 			}
 		}
 
+		// Create Control states and set value
 		for (const key in control) {
+			// adguard_protection has other properties
 			if (key == "adguard_protection") {
 				setObjectAndState(`control.${key}`, `control.${key}`, null, control[key].protection_enabled);
 			}
@@ -129,20 +144,10 @@ async function intervalTick(serverAddress: string, pollInterval: number): Promis
 	} catch (e) {
 		throwWarn(e);
 	}
-
-
+	
 	currentTimeout = setTimeout(async () => {
-		intervalTick(serverAddress, pollInterval);
+		intervalTick(pollInterval);
 	}, pollInterval);
-}
-
-
-if (require.main !== module) {
-	// Export the constructor in compact mode
-	module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new Adguard(options);
-} else {
-	// otherwise start the instance directly
-	(() => new Adguard())();
 }
 
 function throwWarn(error: any): void {
@@ -179,4 +184,12 @@ async function setObjectAndState(objectId: string, stateId: string, stateName: s
 			ack: true,
 		});
 	}
+}
+
+if (require.main !== module) {
+	// Export the constructor in compact mode
+	module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new Adguard(options);
+} else {
+	// otherwise start the instance directly
+	(() => new Adguard())();
 }
