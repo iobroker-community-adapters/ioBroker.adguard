@@ -123,7 +123,15 @@ async function intervalTick(pollInterval) {
         // Prepare responses in order to be able to use them better
         const stats = responses[0].data;
         // Calculate ratio blocks filtering
-        stats.ratio_blocked_filtering = Math.round((stats.num_blocked_filtering / stats.num_dns_queries) * 10000) / 100;
+        stats.ratio_blocked_filtering = Math.round((stats.num_blocked_filtering / (stats.num_dns_queries - (stats.num_replaced_safebrowsing + stats.num_replaced_parental))) * 10000) / 100;
+        // Calculate ratio replaced safebrowsing
+        stats.ratio_replaced_safebrowsing = Math.round((stats.num_replaced_safebrowsing / (stats.num_dns_queries - (stats.num_blocked_filtering + stats.num_replaced_parental))) * 10000) / 100;
+        // Calculate ratio replaced parental
+        stats.ratio_replaced_parental = Math.round((stats.num_replaced_parental / (stats.num_dns_queries - (stats.num_replaced_safebrowsing + stats.num_blocked_filtering))) * 10000) / 100;
+        // Calculate ratio blocks total
+        stats.ratio_blocked_total = stats.ratio_blocked_filtering + stats.ratio_replaced_safebrowsing + stats.ratio_replaced_parental;
+        // Calculate number blocks total
+        stats.num_blocked_total = stats.num_blocked_filtering + stats.num_replaced_safebrowsing + stats.num_replaced_parental + stats.num_replaced_safesearch;
         const control = {
             safebrowsing: responses[1].data,
             parental: responses[2].data,
