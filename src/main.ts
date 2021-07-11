@@ -144,7 +144,7 @@ async function intervalTick(pollInterval: number): Promise<void> {
 	} catch (e) {
 		throwWarn(e);
 	}
-	
+
 	currentTimeout = setTimeout(async () => {
 		intervalTick(pollInterval);
 	}, pollInterval);
