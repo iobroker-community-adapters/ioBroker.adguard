@@ -130,10 +130,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		return (
 			<form className={this.props.classes.tab}>
 				{this.renderInput("Server Address", "serverAddress", "text")}<br />
-				{this.renderInput("Server Port", "serverPort", "number")}<br />
 				{this.renderInput("Poll Interval (sec.)", "pollInterval", "number")}<br />
 				{this.renderInput("User", "user", "text")}<br />
-				{this.renderInput("Password", "password", "text")}
+				{this.renderInput("Password", "password", "password")}
 			</form>
 		);
 	}

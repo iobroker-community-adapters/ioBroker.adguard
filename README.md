@@ -1,4 +1,5 @@
 ![Logo](admin/adguard.png)
+
 # ioBroker.adguard
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.adguard.svg)](https://www.npmjs.com/package/iobroker.adguard)
@@ -13,14 +14,16 @@
 
 ## AdGuard adapter for ioBroker
 
-AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental control (adult content blocking) capabilities. The AdGuard integration allows you to control and monitor your AdGuard Home instance in ioBroker.
+AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental control (adult content blocking) capabilities. The AdGuard adapter allows you to control and monitor your AdGuard Home instance in ioBroker.
 
 ## Changelog
 
 ### 0.0.1
-* (Dennis Rathjen) initial release
+
+-   (Dennis Rathjen) initial release
 
 ## License
+
 MIT License
 
 Copyright (c) 2021 Dennis Rathjen <dennis.rathjen@outlook.de>

@@ -24,10 +24,10 @@ class Adguard extends utils.Adapter {
 	private async onReady(): Promise<void> {
 		adapter = this;
 		setObjectAndState("info.connection", "info.connection", null, false);
-		this.log.info("config serverAddress: " + this.config.serverAddress);
-		this.log.info("config pollInterval: " + this.config.pollInterval);
-		this.log.info("config user: " + this.config.user);
-		this.log.info("config password: " + this.config.password);
+		this.log.debug("config serverAddress: " + this.config.serverAddress);
+		this.log.debug("config pollInterval: " + this.config.pollInterval);
+		this.log.debug("config user: " + this.config.user);
+		this.log.debug("config password: *******");
 
 		axiosOptions = { auth: {username: this.config.user, password: this.config.password}};
 

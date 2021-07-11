@@ -80861,7 +80861,7 @@ function (_super) {
   Settings.prototype.render = function () {
     return react_1.default.createElement("form", {
       className: this.props.classes.tab
-    }, this.renderInput("Server Address", "serverAddress", "text"), react_1.default.createElement("br", null), this.renderInput("Server Port", "serverPort", "number"), react_1.default.createElement("br", null), this.renderInput("Poll Interval (sec.)", "pollInterval", "number"), react_1.default.createElement("br", null), this.renderInput("User", "user", "text"), react_1.default.createElement("br", null), this.renderInput("Password", "password", "text"));
+    }, this.renderInput("Server Address", "serverAddress", "text"), react_1.default.createElement("br", null), this.renderInput("Poll Interval (sec.)", "pollInterval", "number"), react_1.default.createElement("br", null), this.renderInput("User", "user", "text"), react_1.default.createElement("br", null), this.renderInput("Password", "password", "password"));
   };
 
   return Settings;
@@ -81149,7 +81149,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57513" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51128" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
