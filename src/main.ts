@@ -19,6 +19,7 @@ class Adguard extends utils.Adapter {
 		});
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
+		this.on("stateChange", this.onStateChange.bind(this));
 	}
 
 	private async onReady(): Promise<void> {
@@ -32,6 +33,35 @@ class Adguard extends utils.Adapter {
 		axiosOptions = { auth: {username: this.config.user, password: this.config.password}};
 
 		intervalTick(this.config.serverAddress, this.config.pollInterval * 1000);
+
+		this.subscribeStates("control.*");
+	}
+
+	async onStateChange(id: string , state: ioBroker.State | null | undefined): Promise<void> {
+		this.log.debug(`onStateChange-> id:${id} state:${JSON.stringify(state)}`);
+
+		// Ingore Message with ack=true
+		try {
+			if (!state || state.ack == true) {
+				this.log.debug(`onStateChange-> ack is true, change does not need to be processed!`);
+				return;
+			}
+			if (id.endsWith(".filtering")){
+				const jsonBody = JSON.parse(`{"enabled": ${state.val}, "interval": 24}`);
+				await axios.post(new URL("control/filtering/config", this.config.serverAddress).href, jsonBody, axiosOptions);
+			}
+			else if (id.endsWith(".adguard_protection")){
+				const jsonBody = JSON.parse(`{"protection_enabled": ${state.val}}`);
+				await axios.post(new URL("control/dns_config", this.config.serverAddress).href, jsonBody, axiosOptions);
+			}
+			else {
+				await axios.post(new URL(`control/${id.split(".").slice(-1)[0]}/${state.val == true ? "enable" : "disable"}`, this.config.serverAddress).href, null, axiosOptions);
+			}
+
+			this.setStateAsync(id, { val: state.val, ack: true });
+		} catch (error) {
+			adapter.log.error(`onStateChange-> error:${error}`);
+		}
 	}
 
 	private onUnload(callback: () => void): void {
@@ -50,26 +80,56 @@ async function intervalTick(serverAddress: string, pollInterval: number): Promis
 	if (currentTimeout) {
 		clearTimeout(currentTimeout);
 	}
-	const apiUrl = new URL("control/stats", serverAddress);
-	try {
-		const response = (await axios.get(apiUrl.href,axiosOptions)).data;
-		// Channel erstellen
-		await setObjectAndState("stats", "stats", null, null);
 
-		// SiteStats Propertys durchlaufen und in State schreiben
-		for (const key in response) {
-			if (Object.prototype.hasOwnProperty.call(response, key)) {
-				let value = response[key];
+	try {
+		//const response = (await axios.get(apiUrl.href,axiosOptions)).data;
+
+		const responses = await axios.all([
+			axios.get(new URL("control/stats", serverAddress).href, axiosOptions),
+			axios.get(new URL("control/safebrowsing/status", serverAddress).href, axiosOptions),
+			axios.get(new URL("control/parental/status", serverAddress).href, axiosOptions),
+			axios.get(new URL("control/safesearch/status", serverAddress).href, axiosOptions),
+			axios.get(new URL("control/filtering/status", serverAddress).href, axiosOptions),
+			axios.get(new URL("control/dns_info", serverAddress).href, axiosOptions)
+		]);
+
+		const stats = responses[0].data;
+		const control: any = {
+			safebrowsing: responses[1].data,
+			parental: responses[2].data,
+			safesearch: responses[3].data,
+			filtering: responses[4].data,
+			adguard_protection: responses[5].data
+		};
+
+
+		// Channels erstellen
+		await setObjectAndState("stats", "stats", null, null);
+		await setObjectAndState("control", "control", null, null);
+
+		for (const key in stats) {
+			if (Object.prototype.hasOwnProperty.call(stats, key)) {
+				let value = stats[key];
 				if (key == "avg_processing_time"){
-					value = Math.round(Number(response[key]) * 1000);
+					value = Math.round(Number(stats[key]) * 1000);
 				}
 				setObjectAndState(`stats.${key}`, `stats.${key}`, null, value);
+			}
+		}
+
+		for (const key in control) {
+			if (key == "adguard_protection") {
+				setObjectAndState(`control.${key}`, `control.${key}`, null, control[key].protection_enabled);
+			}
+			else {
+				setObjectAndState(`control.${key}`, `control.${key}`, null, control[key].enabled);
 			}
 		}
 
 	} catch (e) {
 		throwWarn(e);
 	}
+
 
 	currentTimeout = setTimeout(async () => {
 		intervalTick(serverAddress, pollInterval);

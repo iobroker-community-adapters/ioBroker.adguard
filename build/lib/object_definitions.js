@@ -95,5 +95,67 @@ const objectDefinitions = {
         },
         native: {},
     },
+    "control": {
+        type: "channel",
+        common: {
+            name: "Control AdGuard",
+        },
+        native: {},
+    },
+    "control.safebrowsing": {
+        type: "state",
+        common: {
+            name: "Enable or disable Safe Browsing",
+            role: "switch",
+            type: "boolean",
+            write: true,
+            read: true,
+        },
+        native: {},
+    },
+    "control.parental": {
+        type: "state",
+        common: {
+            name: "Enable or disable Parental Control",
+            role: "switch",
+            type: "boolean",
+            write: true,
+            read: true,
+        },
+        native: {},
+    },
+    "control.safesearch": {
+        type: "state",
+        common: {
+            name: "Enable or disable Safe Search",
+            role: "switch",
+            type: "boolean",
+            write: true,
+            read: true,
+        },
+        native: {},
+    },
+    "control.filtering": {
+        type: "state",
+        common: {
+            name: "Enable or disable filters and hosts files filtering",
+            role: "switch",
+            type: "boolean",
+            write: true,
+            read: true,
+        },
+        native: {},
+    },
+    "control.adguard_protection": {
+        type: "state",
+        common: {
+            name: "Enable or disable AdGuard Protection (master switch)",
+            role: "switch",
+            type: "boolean",
+            write: true,
+            read: true,
+        },
+        native: {},
+    },
 };
 exports.objectDefinitions = objectDefinitions;
