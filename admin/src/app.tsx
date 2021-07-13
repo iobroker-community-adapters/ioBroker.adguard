@@ -41,7 +41,7 @@ class App extends GenericApp {
 		}
 
 		return (
-			<div className="App">
+			<div className="App" style={{background: this.state.themeType === "dark" ? "black" : "white"}}>
 				<Settings native={this.state.native} onChange={(attr, value) => this.updateNativeValue(attr, value)} />
 				{this.renderError()}
 				{this.renderToast()}
