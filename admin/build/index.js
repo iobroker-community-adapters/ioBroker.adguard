@@ -81070,7 +81070,7 @@ function (_super) {
     return react_1.default.createElement("div", {
       className: "App",
       style: {
-        background: this.state.themeType === "dark" ? "black" : "white"
+        background: this.state.themeType === "dark" ? "#1f1f1f" : "white"
       }
     }, react_1.default.createElement(settings_1.default, {
       native: this.state.native,
@@ -81152,7 +81152,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64027" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55956" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
