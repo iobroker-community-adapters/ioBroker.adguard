@@ -28,6 +28,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const utils = __importStar(require("@iobroker/adapter-core"));
 const axios_1 = __importDefault(require("axios"));
 const object_definitions_1 = require("./lib/object_definitions");
+const https = __importStar(require("https"));
 let adapter;
 let currentTimeout;
 let axiosOptions;
@@ -58,7 +59,7 @@ class Adguard extends utils.Adapter {
             serverAddress = "http://" + this.config.serverAddress;
         }
         // Set authtenfication in axios options
-        axiosOptions = { auth: { username: this.config.user, password: this.config.password } };
+        axiosOptions = { auth: { username: this.config.user, password: this.config.password }, httpsAgent: new https.Agent({ rejectUnauthorized: false }) };
         // Start interval
         intervalTick(this.config.pollInterval * 1000);
         // Subscribe changes in adapter.N.control

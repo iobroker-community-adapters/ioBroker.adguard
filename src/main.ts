@@ -5,6 +5,7 @@
 import * as utils from "@iobroker/adapter-core";
 import axios, { AxiosRequestConfig } from "axios";
 import { MyObjectsDefinitions, objectDefinitions } from "./lib/object_definitions";
+import * as https from "https";
 
 let adapter: ioBroker.Adapter;
 let currentTimeout: NodeJS.Timeout;
@@ -40,7 +41,7 @@ class Adguard extends utils.Adapter {
 			serverAddress = "http://" + this.config.serverAddress;
 		}
 		// Set authtenfication in axios options
-		axiosOptions = { auth: {username: this.config.user, password: this.config.password}};
+		axiosOptions = { auth: {username: this.config.user, password: this.config.password}, httpsAgent: new https.Agent({rejectUnauthorized: false}) };
 		// Start interval
 		intervalTick(this.config.pollInterval * 1000);
 		// Subscribe changes in adapter.N.control
