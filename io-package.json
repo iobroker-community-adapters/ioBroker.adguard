@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "adguard",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "news": {
+            "0.0.5": {
+                "en": "better background color for dark theme\naccept self signed certificate",
+                "de": "bessere Hintergrundfarbe für dunkles Thema\nSelbstsigniertes Zertifikat akzeptieren",
+                "ru": "лучший цвет фона для темной темы\nпринять самоподписанный сертификат",
+                "pt": "melhor cor de fundo para o tema escuro\naceitar certificado autoassinado",
+                "nl": "betere achtergrondkleur voor donker thema\naccepteer zelfondertekend certificaat",
+                "fr": "meilleure couleur de fond pour le thème sombre\naccepter le certificat auto-signé",
+                "it": "colore di sfondo migliore per il tema scuro\naccetta il certificato autofirmato",
+                "es": "mejor color de fondo para el tema oscuro\naceptar certificado autofirmado",
+                "pl": "lepszy kolor tła dla ciemnego motywu\nzaakceptuj samopodpisany certyfikat",
+                "zh-cn": "更好的深色主题背景颜色\n接受自签名证书"
+            },
             "0.0.4": {
                 "en": "Bugfix dark theme",
                 "de": "Bugfix dunkles Thema",
