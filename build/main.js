@@ -33,6 +33,7 @@ let adapter;
 let currentTimeout;
 let axiosOptions;
 let serverAddress;
+const createdObjs = [];
 class Adguard extends utils.Adapter {
     constructor(options = {}) {
         super({
@@ -188,11 +189,16 @@ async function setObjectAndState(objectId, stateId, stateName, value) {
     if (stateName !== null) {
         obj.common.name = stateName;
     }
-    await adapter.setObjectNotExistsAsync(stateId, {
-        type: obj.type,
-        common: JSON.parse(JSON.stringify(obj.common)),
-        native: JSON.parse(JSON.stringify(obj.native)),
-    });
+    // Check if the object must be created
+    if (createdObjs.indexOf(stateId) === -1) {
+        await adapter.setObjectNotExistsAsync(stateId, {
+            type: obj.type,
+            common: JSON.parse(JSON.stringify(obj.common)),
+            native: JSON.parse(JSON.stringify(obj.native)),
+        });
+        // Remember created object for this runtime
+        createdObjs.push(stateId);
+    }
     if (value !== null) {
         adapter.setStateChangedAsync(stateId, {
             val: value,

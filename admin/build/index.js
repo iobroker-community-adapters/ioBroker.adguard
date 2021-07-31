@@ -43058,7 +43058,7 @@ exports["default"] = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.ERRORS = exports.NOT_CONNECTED = exports.PERMISSION_ERROR = exports.PROGRESS = void 0;
+exports["default"] = exports.ERRORS = exports.PROGRESS = void 0;
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -43098,9 +43098,7 @@ var PROGRESS = {
 };
 exports.PROGRESS = PROGRESS;
 var PERMISSION_ERROR = 'permissionError';
-exports.PERMISSION_ERROR = PERMISSION_ERROR;
 var NOT_CONNECTED = 'notConnectedError';
-exports.NOT_CONNECTED = NOT_CONNECTED;
 var ERRORS = {
   PERMISSION_ERROR: PERMISSION_ERROR,
   NOT_CONNECTED: NOT_CONNECTED
@@ -44201,10 +44199,11 @@ var Connection = /*#__PURE__*/function () {
         cb && cb();
       } else {
         var obj = objs.pop();
-        this.delObject(obj._id).then(function () {
-          obj._id = obj.newId;
-          delete obj.newId;
-          return _this20.setObject(obj._id, obj);
+        var oldId = obj._id;
+        obj._id = obj.newId;
+        delete obj.newId;
+        this.setObject(obj._id, obj).then(function () {
+          return _this20.delObject(oldId);
         }).then(function () {
           return setTimeout(function () {
             return _this20._renameGroups(objs, cb);
@@ -44256,7 +44255,9 @@ var Connection = /*#__PURE__*/function () {
                 obj.common.name = newName;
               }
 
-              return _this21.setObject(obj._id, obj);
+              return _this21.setObject(obj._id, obj).then(function () {
+                return _this21.delObject(id);
+              });
             }
           });
         }
@@ -47365,9 +47366,7 @@ var _tslib = require("tslib");
 var _polyfill = require("./polyfill");
 
 /** An error emitted by Sentry SDKs and related utilities. */
-var SentryError =
-/** @class */
-function (_super) {
+var SentryError = function (_super) {
   (0, _tslib.__extends)(SentryError, _super);
 
   function SentryError(message) {
@@ -47404,9 +47403,7 @@ var DSN_REGEX = /^(?:(\w+):)\/\/(?:(\w+)(?::(\w+))?@)([\w.-]+)(?::(\d+))?\/(.+)/
 var ERROR_MESSAGE = 'Invalid Dsn';
 /** The Sentry Dsn, identifying a Sentry instance and project. */
 
-var Dsn =
-/** @class */
-function () {
+var Dsn = function () {
   /** Creates a new Dsn component */
   function Dsn(from) {
     if (typeof from === 'string') {
@@ -48261,9 +48258,7 @@ var global = (0, _misc.getGlobalObject)();
 var PREFIX = 'Sentry Logger ';
 /** JSDoc */
 
-var Logger =
-/** @class */
-function () {
+var Logger = function () {
   /** JSDoc */
   function Logger() {
     this._enabled = false;
@@ -48359,9 +48354,7 @@ exports.Memo = void 0;
 /**
  * Memo class used for decycle json objects. Uses WeakSet if available otherwise array.
  */
-var Memo =
-/** @class */
-function () {
+var Memo = function () {
   function Memo() {
     this._hasWeakSet = typeof WeakSet === 'function';
     this._inner = this._hasWeakSet ? new WeakSet() : [];
@@ -49612,13 +49605,13 @@ function makeDOMEventHandler(handler, globalListener) {
     } // If there is a debounce awaiting, see if the new event is different enough to treat it as a unique one.
     // If that's the case, emit the previous event and store locally the newly-captured DOM event.
     else if (shouldShortcircuitPreviousDebounce(lastCapturedEvent, event)) {
-        handler({
-          event: event,
-          name: name,
-          global: globalListener
-        });
-        lastCapturedEvent = event;
-      } // Start a new debounce timer that will prevent us from capturing multiple events that should be grouped together.
+      handler({
+        event: event,
+        name: name,
+        global: globalListener
+      });
+      lastCapturedEvent = event;
+    } // Start a new debounce timer that will prevent us from capturing multiple events that should be grouped together.
 
 
     clearTimeout(debounceTimerID);
@@ -50016,9 +50009,7 @@ var States;
  */
 
 
-var SyncPromise =
-/** @class */
-function () {
+var SyncPromise = function () {
   function SyncPromise(executor) {
     var _this = this;
 
@@ -50255,9 +50246,7 @@ var _error = require("./error");
 var _syncpromise = require("./syncpromise");
 
 /** A simple queue that holds promises. */
-var PromiseBuffer =
-/** @class */
-function () {
+var PromiseBuffer = function () {
   function PromiseBuffer(_limit) {
     this._limit = _limit;
     /** Internal set of queued Promises */
@@ -50273,10 +50262,13 @@ function () {
     return this._limit === undefined || this.length() < this._limit;
   };
   /**
-   * Add a promise to the queue.
+   * Add a promise (representing an in-flight action) to the queue, and set it to remove itself on fulfillment.
    *
-   * @param taskProducer A function producing any PromiseLike<T>; In previous versions this used to be `task: PromiseLike<T>`,
-   *        however, Promises were instantly created on the call-site, making them fall through the buffer limit.
+   * @param taskProducer A function producing any PromiseLike<T>; In previous versions this used to be `task:
+   *        PromiseLike<T>`, but under that model, Promises were instantly created on the call-site and their executor
+   *        functions therefore ran immediately. Thus, even if the buffer was full, the action still happened. By
+   *        requiring the promise to be wrapped in a function, we can defer promise creation until after the buffer
+   *        limit check.
    * @returns The original promise.
    */
 
@@ -50286,7 +50278,8 @@ function () {
 
     if (!this.isReady()) {
       return _syncpromise.SyncPromise.reject(new _error.SentryError('Not adding Promise due to buffer limit reached.'));
-    }
+    } // start the task and add its promise to the queue
+
 
     var task = taskProducer();
 
@@ -50296,15 +50289,17 @@ function () {
 
     void task.then(function () {
       return _this.remove(task);
-    }).then(null, function () {
-      return _this.remove(task).then(null, function () {// We have to add this catch here otherwise we have an unhandledPromiseRejection
-        // because it's a new Promise chain.
+    }) // Use `then(null, rejectionHandler)` rather than `catch(rejectionHandler)` so that we can use `PromiseLike`
+    // rather than `Promise`. `PromiseLike` doesn't have a `.catch` method, making its polyfill smaller. (ES5 didn't
+    // have promises, so TS has to polyfill when down-compiling.)
+    .then(null, function () {
+      return _this.remove(task).then(null, function () {// We have to add another catch here because `this.remove()` starts a new promise chain.
       });
     });
     return task;
   };
   /**
-   * Remove a promise to the queue.
+   * Remove a promise from the queue.
    *
    * @param task Can be any PromiseLike<T>
    * @returns Removed promise.
@@ -50325,10 +50320,13 @@ function () {
     return this._buffer.length;
   };
   /**
-   * This will drain the whole queue, returns true if queue is empty or drained.
-   * If timeout is provided and the queue takes longer to drain, the promise still resolves but with false.
+   * Wait for all promises in the queue to resolve or for timeout to expire, whichever comes first.
    *
-   * @param timeout Number in ms to wait until it resolves with false.
+   * @param timeout The time, in ms, after which to resolve to `false` if the queue is still non-empty. Passing `0` (or
+   * not passing anything) will make the promise wait as long as it takes for the queue to drain before resolving to
+   * `true`.
+   * @returns A promise which will resolve to `true` if the queue is already empty or drains before the timeout, and
+   * `false` otherwise
    */
 
 
@@ -50336,11 +50334,13 @@ function () {
     var _this = this;
 
     return new _syncpromise.SyncPromise(function (resolve) {
+      // wait for `timeout` ms and then resolve to `false` (if not cancelled first)
       var capturedSetTimeout = setTimeout(function () {
         if (timeout && timeout > 0) {
           resolve(false);
         }
-      }, timeout);
+      }, timeout); // if all promises resolve in time, cancel the timer and resolve to `true`
+
       void _syncpromise.SyncPromise.all(_this._buffer).then(function () {
         clearTimeout(capturedSetTimeout);
         resolve(true);
@@ -50799,9 +50799,7 @@ var MAX_BREADCRUMBS = 100;
  * called by the client before an event will be sent.
  */
 
-var Scope =
-/** @class */
-function () {
+var Scope = function () {
   function Scope() {
     /** Flag if notifiying is happening. */
     this._notifyingListeners = false;
@@ -51384,9 +51382,7 @@ var _utils = require("@sentry/utils");
 /**
  * @inheritdoc
  */
-var Session =
-/** @class */
-function () {
+var Session = function () {
   function Session(context) {
     this.errors = 0;
     this.sid = (0, _utils.uuid4)();
@@ -51568,9 +51564,7 @@ var DEFAULT_BREADCRUMBS = 100;
  * @inheritDoc
  */
 
-var Hub =
-/** @class */
-function () {
+var Hub = function () {
   /**
    * Creates a new instance of the hub, will push one {@link Layer} into the
    * internal stack on creation.
@@ -52224,9 +52218,7 @@ var _hub = require("./hub");
 /**
  * @inheritdoc
  */
-var SessionFlusher =
-/** @class */
-function () {
+var SessionFlusher = function () {
   function SessionFlusher(transport, attrs) {
     var _this = this;
 
@@ -52707,9 +52699,7 @@ var SENTRY_API_VERSION = '7';
  * Supports both envelopes and regular event requests.
  **/
 
-var API =
-/** @class */
-function () {
+var API = function () {
   /** Create a new instance of API */
   function API(dsn, metadata, tunnel) {
     if (metadata === void 0) {
@@ -53026,9 +53016,7 @@ var _integration = require("./integration");
  *   // ...
  * }
  */
-var BaseClient =
-/** @class */
-function () {
+var BaseClient = function () {
   /**
    * Initializes this client instance.
    *
@@ -53038,9 +53026,9 @@ function () {
   function BaseClient(backendClass, options) {
     /** Array of used integrations. */
     this._integrations = {};
-    /** Number of call being processed */
+    /** Number of calls being processed */
 
-    this._processing = 0;
+    this._numProcessing = 0;
     this._backend = new backendClass(options);
     this._options = options;
 
@@ -53147,9 +53135,9 @@ function () {
   BaseClient.prototype.flush = function (timeout) {
     var _this = this;
 
-    return this._isClientProcessing(timeout).then(function (ready) {
+    return this._isClientDoneProcessing(timeout).then(function (clientFinished) {
       return _this._getBackend().getTransport().close(timeout).then(function (transportFlushed) {
-        return ready && transportFlushed;
+        return clientFinished && transportFlushed;
       });
     });
   };
@@ -53247,17 +53235,26 @@ function () {
   BaseClient.prototype._sendSession = function (session) {
     this._getBackend().sendSession(session);
   };
-  /** Waits for the client to be done with processing. */
+  /**
+   * Determine if the client is finished processing. Returns a promise because it will wait `timeout` ms before saying
+   * "no" (resolving to `false`) in order to give the client a chance to potentially finish first.
+   *
+   * @param timeout The time, in ms, after which to resolve to `false` if the client is still busy. Passing `0` (or not
+   * passing anything) will make the promise wait as long as it takes for processing to finish before resolving to
+   * `true`.
+   * @returns A promise which will resolve to `true` if processing is already done or finishes before the timeout, and
+   * `false` otherwise
+   */
 
 
-  BaseClient.prototype._isClientProcessing = function (timeout) {
+  BaseClient.prototype._isClientDoneProcessing = function (timeout) {
     var _this = this;
 
     return new _utils.SyncPromise(function (resolve) {
       var ticked = 0;
       var tick = 1;
       var interval = setInterval(function () {
-        if (_this._processing == 0) {
+        if (_this._numProcessing == 0) {
           clearInterval(interval);
           resolve(true);
         } else {
@@ -53379,6 +53376,13 @@ function () {
     if (event.contexts && event.contexts.trace) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       normalized.contexts.trace = event.contexts.trace;
+    }
+
+    var _a = this.getOptions()._experiments,
+        _experiments = _a === void 0 ? {} : _a;
+
+    if (_experiments.ensureNoCircularStructures) {
+      return (0, _utils.normalize)(normalized);
     }
 
     return normalized;
@@ -53552,12 +53556,12 @@ function () {
   BaseClient.prototype._process = function (promise) {
     var _this = this;
 
-    this._processing += 1;
+    this._numProcessing += 1;
     void promise.then(function (value) {
-      _this._processing -= 1;
+      _this._numProcessing -= 1;
       return value;
     }, function (reason) {
-      _this._processing -= 1;
+      _this._numProcessing -= 1;
       return reason;
     });
   };
@@ -53603,9 +53607,7 @@ var _types = require("@sentry/types");
 var _utils = require("@sentry/utils");
 
 /** Noop transport */
-var NoopTransport =
-/** @class */
-function () {
+var NoopTransport = function () {
   function NoopTransport() {}
   /**
    * @inheritDoc
@@ -53647,9 +53649,7 @@ var _noop = require("./transports/noop");
  * This is the base implemention of a Backend.
  * @hidden
  */
-var BaseBackend =
-/** @class */
-function () {
+var BaseBackend = function () {
   /** Creates a new backend instance. */
   function BaseBackend(options) {
     this._options = options;
@@ -53888,7 +53888,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SDK_VERSION = void 0;
-var SDK_VERSION = '6.8.0';
+var SDK_VERSION = '6.9.0';
 exports.SDK_VERSION = SDK_VERSION;
 },{}],"../../node_modules/@sentry/core/esm/integrations/functiontostring.js":[function(require,module,exports) {
 "use strict";
@@ -53900,9 +53900,7 @@ exports.FunctionToString = void 0;
 var originalFunctionToString;
 /** Patch toString calls to return proper name for wrapped functions */
 
-var FunctionToString =
-/** @class */
-function () {
+var FunctionToString = function () {
   function FunctionToString() {
     /**
      * @inheritDoc
@@ -53958,9 +53956,7 @@ var _utils = require("@sentry/utils");
 var DEFAULT_IGNORE_ERRORS = [/^Script error\.?$/, /^Javascript error: Script error\.? on line 0$/];
 /** Inbound filters configurable by the user */
 
-var InboundFilters =
-/** @class */
-function () {
+var InboundFilters = function () {
   function InboundFilters(_options) {
     if (_options === void 0) {
       _options = {};
@@ -54958,9 +54954,7 @@ var CATEGORY_MAPPING = {
 };
 /** Base Transport class implementation */
 
-var BaseTransport =
-/** @class */
-function () {
+var BaseTransport = function () {
   function BaseTransport(options) {
     this.options = options;
     /** A simple buffer holding all requests. */
@@ -55201,9 +55195,7 @@ function getNativeFetchImplementation() {
 /** `fetch` based transport */
 
 
-var FetchTransport =
-/** @class */
-function (_super) {
+var FetchTransport = function (_super) {
   (0, _tslib.__extends)(FetchTransport, _super);
 
   function FetchTransport(options, fetchImpl) {
@@ -55309,9 +55301,7 @@ var _utils = require("@sentry/utils");
 var _base = require("./base");
 
 /** `XHR` based transport */
-var XHRTransport =
-/** @class */
-function (_super) {
+var XHRTransport = function (_super) {
   (0, _tslib.__extends)(XHRTransport, _super);
 
   function XHRTransport() {
@@ -55443,9 +55433,7 @@ var _transports = require("./transports");
  * The Sentry Browser SDK Backend.
  * @hidden
  */
-var BrowserBackend =
-/** @class */
-function (_super) {
+var BrowserBackend = function (_super) {
   (0, _tslib.__extends)(BrowserBackend, _super);
 
   function BrowserBackend() {
@@ -55732,9 +55720,7 @@ var _helpers = require("../helpers");
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 /** Global handlers */
-var GlobalHandlers =
-/** @class */
-function () {
+var GlobalHandlers = function () {
   /** JSDoc */
   function GlobalHandlers(options) {
     /**
@@ -55837,8 +55823,8 @@ function () {
           // see https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent and
           // https://github.com/getsentry/sentry-javascript/issues/2380
           else if ('detail' in e && 'reason' in e.detail) {
-              error = e.detail.reason;
-            }
+            error = e.detail.reason;
+          }
         } catch (_oO) {// no-empty
         }
 
@@ -55970,9 +55956,7 @@ var _helpers = require("../helpers");
 var DEFAULT_EVENT_TARGET = ['EventTarget', 'Window', 'Node', 'ApplicationCache', 'AudioTrackList', 'ChannelMergerNode', 'CryptoOperation', 'EventSource', 'FileReader', 'HTMLUnknownElement', 'IDBDatabase', 'IDBRequest', 'IDBTransaction', 'KeyOperation', 'MediaController', 'MessagePort', 'ModalWindow', 'Notification', 'SVGElementInstance', 'Screen', 'TextTrack', 'TextTrackCue', 'TextTrackList', 'WebSocket', 'WebSocketWorker', 'Worker', 'XMLHttpRequest', 'XMLHttpRequestEventTarget', 'XMLHttpRequestUpload'];
 /** Wrap timer functions and event targets to catch errors and provide better meta data */
 
-var TryCatch =
-/** @class */
-function () {
+var TryCatch = function () {
   /**
    * @inheritDoc
    */
@@ -56222,9 +56206,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
  * Default Breadcrumbs instrumentations
  * TODO: Deprecated - with v6, this will be renamed to `Instrument`
  */
-var Breadcrumbs =
-/** @class */
-function () {
+var Breadcrumbs = function () {
   /**
    * @inheritDoc
    */
@@ -56557,9 +56539,7 @@ var DEFAULT_KEY = 'cause';
 var DEFAULT_LIMIT = 5;
 /** Adds SDK info to an event. */
 
-var LinkedErrors =
-/** @class */
-function () {
+var LinkedErrors = function () {
   /**
    * @inheritDoc
    */
@@ -56653,9 +56633,7 @@ var _utils = require("@sentry/utils");
 var global = (0, _utils.getGlobalObject)();
 /** UserAgent */
 
-var UserAgent =
-/** @class */
-function () {
+var UserAgent = function () {
   function UserAgent() {
     /**
      * @inheritDoc
@@ -56718,9 +56696,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.Dedupe = void 0;
 
 /** Deduplication filter */
-var Dedupe =
-/** @class */
-function () {
+var Dedupe = function () {
   function Dedupe() {
     /**
      * @inheritDoc
@@ -57003,9 +56979,7 @@ var _integrations = require("./integrations");
  * @see BrowserOptions for documentation on configuration options.
  * @see SentryClient for usage documentation.
  */
-var BrowserClient =
-/** @class */
-function (_super) {
+var BrowserClient = function (_super) {
   (0, _tslib.__extends)(BrowserClient, _super);
   /**
    * Creates a new Browser SDK instance.
@@ -57104,6 +57078,8 @@ exports.flush = flush;
 exports.close = close;
 exports.wrap = wrap;
 exports.defaultIntegrations = void 0;
+
+var _tslib = require("tslib");
 
 var _core = require("@sentry/core");
 
@@ -57215,11 +57191,18 @@ function showReportDialog(options) {
     options = {};
   }
 
-  if (!options.eventId) {
-    options.eventId = (0, _core.getCurrentHub)().lastEventId();
+  var hub = (0, _core.getCurrentHub)();
+  var scope = hub.getScope();
+
+  if (scope) {
+    options.user = (0, _tslib.__assign)((0, _tslib.__assign)({}, scope.getUser()), options.user);
   }
 
-  var client = (0, _core.getCurrentHub)().getClient();
+  if (!options.eventId) {
+    options.eventId = hub.lastEventId();
+  }
+
+  var client = hub.getClient();
 
   if (client) {
     client.showReportDialog(options);
@@ -57351,7 +57334,7 @@ function startSessionTracking() {
     type: 'history'
   });
 }
-},{"@sentry/core":"../../node_modules/@sentry/core/esm/index.js","@sentry/utils":"../../node_modules/@sentry/utils/esm/index.js","./client":"../../node_modules/@sentry/browser/esm/client.js","./helpers":"../../node_modules/@sentry/browser/esm/helpers.js","./integrations":"../../node_modules/@sentry/browser/esm/integrations/index.js"}],"../../node_modules/@sentry/browser/esm/version.js":[function(require,module,exports) {
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","@sentry/core":"../../node_modules/@sentry/core/esm/index.js","@sentry/utils":"../../node_modules/@sentry/utils/esm/index.js","./client":"../../node_modules/@sentry/browser/esm/client.js","./helpers":"../../node_modules/@sentry/browser/esm/helpers.js","./integrations":"../../node_modules/@sentry/browser/esm/integrations/index.js"}],"../../node_modules/@sentry/browser/esm/version.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -73105,9 +73088,9 @@ var TextareaAutosize = /*#__PURE__*/React.forwardRef(function TextareaAutosize(p
 
   /**
    * Minimum number of rows to display.
-   * @deprecated Use `rowsMin` instead.
+   * @deprecated Use `minRows` instead.
    */
-  rows: (0, _deprecatedPropType.default)(_propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]), 'Use `rowsMin` instead.'),
+  rows: (0, _deprecatedPropType.default)(_propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]), 'Use `minRows` instead.'),
 
   /**
    * Maximum number of rows to display.
@@ -79025,6 +79008,7 @@ var TextField = /*#__PURE__*/React.forwardRef(function TextField(props, ref) {
       rows = props.rows,
       rowsMax = props.rowsMax,
       maxRows = props.maxRows,
+      minRows = props.minRows,
       _props$select = props.select,
       select = _props$select === void 0 ? false : _props$select,
       SelectProps = props.SelectProps,
@@ -79032,7 +79016,7 @@ var TextField = /*#__PURE__*/React.forwardRef(function TextField(props, ref) {
       value = props.value,
       _props$variant = props.variant,
       variant = _props$variant === void 0 ? 'standard' : _props$variant,
-      other = (0, _objectWithoutProperties2.default)(props, ["autoComplete", "autoFocus", "children", "classes", "className", "color", "defaultValue", "disabled", "error", "FormHelperTextProps", "fullWidth", "helperText", "hiddenLabel", "id", "InputLabelProps", "inputProps", "InputProps", "inputRef", "label", "multiline", "name", "onBlur", "onChange", "onFocus", "placeholder", "required", "rows", "rowsMax", "maxRows", "select", "SelectProps", "type", "value", "variant"]);
+      other = (0, _objectWithoutProperties2.default)(props, ["autoComplete", "autoFocus", "children", "classes", "className", "color", "defaultValue", "disabled", "error", "FormHelperTextProps", "fullWidth", "helperText", "hiddenLabel", "id", "InputLabelProps", "inputProps", "InputProps", "inputRef", "label", "multiline", "name", "onBlur", "onChange", "onFocus", "placeholder", "required", "rows", "rowsMax", "maxRows", "minRows", "select", "SelectProps", "type", "value", "variant"]);
 
   if ("development" !== 'production') {
     if (select && !children) {
@@ -79078,6 +79062,7 @@ var TextField = /*#__PURE__*/React.forwardRef(function TextField(props, ref) {
     rows: rows,
     rowsMax: rowsMax,
     maxRows: maxRows,
+    minRows: minRows,
     type: type,
     value: value,
     id: id,
@@ -79230,6 +79215,11 @@ var TextField = /*#__PURE__*/React.forwardRef(function TextField(props, ref) {
   maxRows: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
 
   /**
+   * Minimum number of rows to display.
+   */
+  minRows: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
+
+  /**
    * If `true`, a textarea element will be rendered instead of an input.
    */
   multiline: _propTypes.default.bool,
@@ -79269,6 +79259,7 @@ var TextField = /*#__PURE__*/React.forwardRef(function TextField(props, ref) {
 
   /**
    * Number of rows to display when multiline option is set to true.
+   * @deprecated Use `minRows` instead.
    */
   rows: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
 
@@ -80786,9 +80777,7 @@ var styles = function styles() {
   };
 };
 
-var Settings =
-/** @class */
-function (_super) {
+var Settings = function (_super) {
   __extends(Settings, _super);
 
   function Settings(props) {
@@ -81029,9 +81018,7 @@ var styles = function styles(_theme) {
   };
 };
 
-var App =
-/** @class */
-function (_super) {
+var App = function (_super) {
   __extends(App, _super);
 
   function App(props) {
@@ -81152,7 +81139,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60660" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62092" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

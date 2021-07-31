@@ -11,6 +11,7 @@ let adapter: ioBroker.Adapter;
 let currentTimeout: NodeJS.Timeout;
 let axiosOptions: AxiosRequestConfig;
 let serverAddress: string;
+const createdObjs: string[] = [];
 
 
 class Adguard extends utils.Adapter {
@@ -184,11 +185,16 @@ async function setObjectAndState(objectId: string, stateId: string, stateName: s
 		obj.common.name = stateName;
 	}
 
-	await adapter.setObjectNotExistsAsync(stateId, {
-		type: obj.type,
-		common: JSON.parse(JSON.stringify(obj.common)),
-		native: JSON.parse(JSON.stringify(obj.native)),
-	});
+	// Check if the object must be created
+	if (createdObjs.indexOf(stateId) === -1) {
+		await adapter.setObjectNotExistsAsync(stateId, {
+			type: obj.type,
+			common: JSON.parse(JSON.stringify(obj.common)),
+			native: JSON.parse(JSON.stringify(obj.native)),
+		});
+		// Remember created object for this runtime
+		createdObjs.push(stateId);
+	}
 
 	if (value !== null) {
 		adapter.setStateChangedAsync(stateId, {
