@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "adguard",
-        "version": "0.0.5",
+        "version": "0.0.6",
         "news": {
+            "0.0.6": {
+                "en": "more resource-efficient handling of the States\nbetter unload handling",
+                "de": "ressourceneffizienterer Umgang mit den Staaten\nbesseres Entladehandling",
+                "ru": "более ресурсоэффективное управление штатами\nлучшая разгрузка",
+                "pt": "manejo mais eficiente dos recursos dos Estados\nmelhor manuseio de descarga",
+                "nl": "meer hulpbronnenefficiënte behandeling van de staten\nbetere losbehandeling",
+                "fr": "une gestion plus efficace des ressources des États\nmeilleure gestion du déchargement",
+                "it": "gestione degli Stati più efficiente sotto il profilo delle risorse\nmigliore gestione dello scarico",
+                "es": "manejo más eficiente de los recursos de los Estados\nmejor manejo de descarga",
+                "pl": "bardziej zasobooszczędna obsługa państw\nlepsza obsługa rozładunku",
+                "zh-cn": "更高效地处理各州\n更好的卸载处理"
+            },
             "0.0.5": {
                 "en": "better background color for dark theme\naccept self signed certificate",
                 "de": "bessere Hintergrundfarbe für dunkles Thema\nSelbstsigniertes Zertifikat akzeptieren",
