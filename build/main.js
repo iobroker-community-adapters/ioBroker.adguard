@@ -34,6 +34,7 @@ let currentTimeout;
 let axiosOptions;
 let serverAddress;
 const createdObjs = [];
+let unloadTriggerted = false;
 class Adguard extends utils.Adapter {
     constructor(options = {}) {
         super({
@@ -97,6 +98,7 @@ class Adguard extends utils.Adapter {
     }
     onUnload(callback) {
         try {
+            unloadTriggerted = true;
             clearTimeout(currentTimeout);
             callback();
         }
@@ -169,9 +171,12 @@ async function intervalTick(pollInterval) {
     catch (e) {
         throwWarn(e);
     }
-    currentTimeout = setTimeout(async () => {
-        intervalTick(pollInterval);
-    }, pollInterval);
+    // Check if unload triggerted, if not set timeout for next poll
+    if (!unloadTriggerted) {
+        currentTimeout = setTimeout(async () => {
+            intervalTick(pollInterval);
+        }, pollInterval);
+    }
 }
 function throwWarn(error) {
     let errorMessage = error;
