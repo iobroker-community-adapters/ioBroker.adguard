@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "adguard",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "news": {
+            "0.0.7": {
+                "en": "better unload handling",
+                "de": "besseres Entladehandling",
+                "ru": "лучшая разгрузка",
+                "pt": "melhor manuseio de descarga",
+                "nl": "betere losbehandeling",
+                "fr": "meilleure gestion du déchargement",
+                "it": "migliore gestione dello scarico",
+                "es": "mejor manejo de descarga",
+                "pl": "lepsza obsługa rozładunku",
+                "zh-cn": "更好的卸载处理"
+            },
             "0.0.6": {
                 "en": "more resource-efficient handling of the States\nbetter unload handling",
                 "de": "ressourceneffizienterer Umgang mit den Staaten\nbesseres Entladehandling",
