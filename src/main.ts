@@ -12,7 +12,7 @@ let currentTimeout: NodeJS.Timeout;
 let axiosOptions: AxiosRequestConfig;
 let serverAddress: string;
 const createdObjs: string[] = [];
-let unloadTriggerted = false;
+let isUnloaded = false;
 
 
 class Adguard extends utils.Adapter {
@@ -72,8 +72,11 @@ class Adguard extends utils.Adapter {
 			else {
 				await axios.post(new URL(`control/${id.split(".").slice(-1)[0]}/${state.val == true ? "enable" : "disable"}`, serverAddress).href, null, axiosOptions);
 			}
-			// Only set ack to true if the call was successful
-			this.setStateAsync(id, { val: state.val, ack: true });
+			// Check if unload triggerted
+			if (!isUnloaded) {
+				// Only set ack to true if the call was successful
+				this.setStateAsync(id, { val: state.val, ack: true });
+			}
 		} catch (error) {
 			adapter.log.error(`onStateChange-> error:${error}`);
 		}
@@ -81,7 +84,7 @@ class Adguard extends utils.Adapter {
 
 	private onUnload(callback: () => void): void {
 		try {
-			unloadTriggerted = true;
+			isUnloaded = true;
 			clearTimeout(currentTimeout);
 			callback();
 		} catch (e) {
@@ -161,7 +164,7 @@ async function intervalTick(pollInterval: number): Promise<void> {
 	}
 
 	// Check if unload triggerted, if not set timeout for next poll
-	if (!unloadTriggerted){
+	if (!isUnloaded){
 		currentTimeout = setTimeout(async () => {
 			intervalTick(pollInterval);
 		}, pollInterval);
@@ -183,6 +186,11 @@ async function setObjectAndState(objectId: string, stateId: string, stateName: s
 	const obj: MyObjectsDefinitions = objectDefinitions[objectId];
 
 	if (!obj) {
+		return;
+	}
+
+	// Check if is unload triggerted
+	if (isUnloaded) {
 		return;
 	}
 
