@@ -77,6 +77,7 @@
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:ts && npm run test:package",
     "check": "tsc --noEmit",
+    "lint": "eslint --ext .ts,.tsx src/",
     "release": "release-script"
   },
   "bugs": {
