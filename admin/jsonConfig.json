@@ -1,0 +1,37 @@
+{
+    "type": "panel",
+    "i18n": true,
+    "items": {
+        "serverAddress": {
+            "newLine": true,
+            "type": "text",
+            "label": "Server Address",
+            "sm": 12,
+            "md": 4,
+            "lg": 3
+        },
+        "pollInterval": {
+            "type": "number",
+            "label": "Poll Interval (sec.)",
+            "sm": 12,
+            "md": 4,
+            "lg": 3
+        },
+        "user": {
+            "newLine": true,
+            "type": "text",
+            "label": "User",
+            "sm": 12,
+            "md": 4,
+            "lg": 3
+        },
+        "password": {
+            "type": "password",
+            "label": "Password",
+            "repeat": true,
+            "sm": 12,
+            "md": 8,
+            "lg": 6
+        }
+    }
+}

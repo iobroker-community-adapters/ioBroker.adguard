@@ -139,7 +139,10 @@
             {
                 "js-controller": ">=3.1.0"
             }
-        ]
+        ],
+        "adminUI": {
+            "config": "json"
+        }
     },
     "native": {
         "serverAddress": "",

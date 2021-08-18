@@ -67,10 +67,8 @@
   "main": "build/main.js",
   "scripts": {
     "prebuild": "rimraf ./build",
-    "build:parcel": "parcel build admin/src/index.tsx -d admin/build",
     "build:ts": "tsc -p tsconfig.build.json",
-    "build": "npm run build:ts && npm run build:parcel",
-    "watch:parcel": "parcel admin/src/index.tsx -d admin/build",
+    "build": "npm run build:ts",
     "watch:ts": "tsc -p tsconfig.build.json --watch",
     "watch": "npm run watch:ts",
     "test:ts": "mocha --config test/mocharc.custom.json src/**/*.test.ts",
@@ -79,7 +77,6 @@
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:ts && npm run test:package",
     "check": "tsc --noEmit",
-    "lint": "eslint --ext .ts,.tsx src/ admin/src/",
     "release": "release-script"
   },
   "bugs": {

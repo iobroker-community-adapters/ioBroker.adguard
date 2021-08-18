@@ -1,8 +1,0 @@
-{
-	"adguard adapter settings": "Ustawienia adaptera dla adguard",
-	"serverAddress": "Adres serwera",
-	"serverPort": "Port serwera",
-	"pollInterval": "Interwał sondowania (sek.)",
-	"user": "Użytkownik",
-	"password": "Hasło"
-}
