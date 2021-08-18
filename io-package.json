@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "adguard",
-        "version": "0.0.7",
+        "version": "0.0.8",
         "news": {
+            "0.0.8": {
+                "en": "change UI to JSONConfig",
+                "de": "Ändern Sie die Benutzeroberfläche in JSONConfig",
+                "ru": "изменить пользовательский интерфейс на JSONConfig",
+                "pt": "alterar a IU para JSONConfig",
+                "nl": "verander gebruikersinterface in JSONConfig",
+                "fr": "changer l'interface utilisateur en JSONConfig",
+                "it": "cambia l'interfaccia utente in JSONConfig",
+                "es": "cambiar la interfaz de usuario a JSONConfig",
+                "pl": "zmień interfejs użytkownika na JSONConfig",
+                "zh-cn": "将 UI 更改为 JSONConfig"
+            },
             "0.0.7": {
                 "en": "better unload handling",
                 "de": "besseres Entladehandling",

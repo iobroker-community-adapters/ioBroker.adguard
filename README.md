@@ -35,7 +35,7 @@ AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.0.8 (2021-08-18)
 
 -   (o0Shojo0o) change UI to JSONConfig
 
