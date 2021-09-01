@@ -8,5 +8,5 @@ updates:
     timezone: Europe/Berlin
   open-pull-requests-limit: 20
   assignees:
-  - o0shojo0o
+    - o0shojo0o
   versioning-strategy: increase
