@@ -10,3 +10,5 @@ updates:
   assignees:
     - o0shojo0o
   versioning-strategy: increase
+  allow:
+    - dependency-type: 'direct'
