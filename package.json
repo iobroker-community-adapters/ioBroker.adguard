@@ -27,7 +27,7 @@
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.15.8",
     "@babel/plugin-proposal-decorators": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-env": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "@iobroker/adapter-react": "^2.0.14",
     "@iobroker/testing": "^2.5.2",
