@@ -19,7 +19,7 @@
     "url": "https://github.com/o0shojo0o/ioBroker.adguard"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.5.1",
+    "@iobroker/adapter-core": "^2.6.0",
     "axios": "^0.26.0"
   },
   "devDependencies": {
