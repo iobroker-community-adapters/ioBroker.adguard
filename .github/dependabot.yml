@@ -3,9 +3,8 @@ updates:
 - package-ecosystem: npm
   directory: "/"
   schedule:
-    interval: daily
-    time: "04:00"
-    timezone: Europe/Berlin
+    interval: "weekly"
+    day: "sunday"
   open-pull-requests-limit: 30
   assignees:
     - o0shojo0o
