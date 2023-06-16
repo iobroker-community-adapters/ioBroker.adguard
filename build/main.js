@@ -1,7 +1,4 @@
 "use strict";
-/*
- * Created with @iobroker/create-adapter v1.33.0
- */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -29,11 +26,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+ * Created with @iobroker/create-adapter v1.33.0
+ */
 const utils = __importStar(require("@iobroker/adapter-core"));
 const axios_1 = __importDefault(require("axios"));
 const object_definitions_1 = require("./lib/object_definitions");
 const https = __importStar(require("https"));
-let adapter;
+//let adapter: ioBroker.Adapter;
 let currentTimeout;
 let axiosOptions;
 let serverAddress;
@@ -50,8 +50,7 @@ class Adguard extends utils.Adapter {
         this.on("stateChange", this.onStateChange.bind(this));
     }
     async onReady() {
-        adapter = this;
-        setObjectAndState("info.connection", "info.connection", null, false);
+        setObjectAndState(this, "info.connection", "info.connection", null, false);
         this.log.debug("config serverAddress: " + this.config.serverAddress);
         this.log.debug("config pollInterval: " + this.config.pollInterval);
         this.log.debug("config user: " + this.config.user);
@@ -67,7 +66,7 @@ class Adguard extends utils.Adapter {
         // Set authtenfication in axios options
         axiosOptions = { auth: { username: this.config.user, password: this.config.password }, httpsAgent: new https.Agent({ rejectUnauthorized: false }) };
         // Start interval
-        intervalTick(this.config.pollInterval * 1000);
+        intervalTick(this, this.config.pollInterval * 1000);
         // Subscribe changes in adapter.N.control
         this.subscribeStates("control.*");
     }
@@ -100,7 +99,7 @@ class Adguard extends utils.Adapter {
             }
         }
         catch (error) {
-            adapter.log.error(`onStateChange-> error:${error}`);
+            this.log.error(`onStateChange-> error:${error}`);
         }
     }
     onUnload(callback) {
@@ -114,9 +113,9 @@ class Adguard extends utils.Adapter {
         }
     }
 }
-async function intervalTick(pollInterval) {
+async function intervalTick(adapter, pollInterval) {
     // First set info.connection to true
-    setObjectAndState("info.connection", "info.connection", null, true);
+    setObjectAndState(adapter, "info.connection", "info.connection", null, true);
     // Check if a timeout is still active, delete it if necessary.
     if (currentTimeout) {
         clearTimeout(currentTimeout);
@@ -151,8 +150,8 @@ async function intervalTick(pollInterval) {
             adguard_protection: responses[5].data
         };
         // Create channels
-        await setObjectAndState("stats", "stats", null, null);
-        await setObjectAndState("control", "control", null, null);
+        await setObjectAndState(adapter, "stats", "stats", null, null);
+        await setObjectAndState(adapter, "control", "control", null, null);
         // Create Stats states and set value
         for (const key in stats) {
             if (Object.prototype.hasOwnProperty.call(stats, key)) {
@@ -161,39 +160,39 @@ async function intervalTick(pollInterval) {
                 if (key == "avg_processing_time") {
                     value = Math.round(Number(stats[key]) * 1000);
                 }
-                setObjectAndState(`stats.${key}`, `stats.${key}`, null, value);
+                setObjectAndState(adapter, `stats.${key}`, `stats.${key}`, null, value);
             }
         }
         // Create Control states and set value
         for (const key in control) {
             // adguard_protection has other properties
             if (key == "adguard_protection") {
-                setObjectAndState(`control.${key}`, `control.${key}`, null, control[key].protection_enabled);
+                setObjectAndState(adapter, `control.${key}`, `control.${key}`, null, control[key].protection_enabled);
             }
             else {
-                setObjectAndState(`control.${key}`, `control.${key}`, null, control[key].enabled);
+                setObjectAndState(adapter, `control.${key}`, `control.${key}`, null, control[key].enabled);
             }
         }
     }
     catch (e) {
-        throwWarn(e);
+        throwWarn(adapter, e);
     }
     // Check if unload triggerted, if not set timeout for next poll
     if (!isUnloaded) {
         currentTimeout = setTimeout(async () => {
-            intervalTick(pollInterval);
+            intervalTick(adapter, pollInterval);
         }, pollInterval);
     }
 }
-function throwWarn(error) {
+function throwWarn(adapter, error) {
     let errorMessage = error;
     if (error.response && error.response.data && error.response.data.message) {
         errorMessage = error.response.data.message;
     }
     adapter.log.warn(`No connection to the server could be established. (${errorMessage})`);
-    setObjectAndState("info.connection", "info.connection", null, false);
+    setObjectAndState(adapter, "info.connection", "info.connection", null, false);
 }
-async function setObjectAndState(objectId, stateId, stateName, value) {
+async function setObjectAndState(adapter, objectId, stateId, stateName, value) {
     const obj = object_definitions_1.objectDefinitions[objectId];
     if (!obj) {
         return;

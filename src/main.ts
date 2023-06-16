@@ -1,7 +1,6 @@
 /*
  * Created with @iobroker/create-adapter v1.33.0
  */
-
 import * as utils from "@iobroker/adapter-core";
 import axios, { AxiosRequestConfig } from "axios";
 import { MyObjectsDefinitions, objectDefinitions } from "./lib/object_definitions";
