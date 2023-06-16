@@ -7,7 +7,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { MyObjectsDefinitions, objectDefinitions } from "./lib/object_definitions";
 import * as https from "https";
 
-let adapter: ioBroker.Adapter;
+//let adapter: ioBroker.Adapter;
 let currentTimeout: NodeJS.Timeout;
 let axiosOptions: AxiosRequestConfig;
 let serverAddress: string;
@@ -28,29 +28,30 @@ class Adguard extends utils.Adapter {
 	}
 
 	private async onReady(): Promise<void> {
-		adapter = this;
-		setObjectAndState("info.connection", "info.connection", null, false);
+
+
+		setObjectAndState(this, "info.connection", "info.connection", null, false);
 		this.log.debug("config serverAddress: " + this.config.serverAddress);
 		this.log.debug("config pollInterval: " + this.config.pollInterval);
 		this.log.debug("config user: " + this.config.user);
 		this.log.debug("config password: *******");
 
 		// Check the server address was passed with http or https
-		if (this.config.serverAddress.startsWith("http")){
+		if (this.config.serverAddress.startsWith("http")) {
 			serverAddress = this.config.serverAddress;
 		} else {
 			// If not append http
 			serverAddress = "http://" + this.config.serverAddress;
 		}
 		// Set authtenfication in axios options
-		axiosOptions = { auth: {username: this.config.user, password: this.config.password}, httpsAgent: new https.Agent({rejectUnauthorized: false}) };
+		axiosOptions = { auth: { username: this.config.user, password: this.config.password }, httpsAgent: new https.Agent({ rejectUnauthorized: false }) };
 		// Start interval
-		intervalTick(this.config.pollInterval * 1000);
+		intervalTick(this, this.config.pollInterval * 1000);
 		// Subscribe changes in adapter.N.control
 		this.subscribeStates("control.*");
 	}
 
-	async onStateChange(id: string , state: ioBroker.State | null | undefined): Promise<void> {
+	async onStateChange(id: string, state: ioBroker.State | null | undefined): Promise<void> {
 		this.log.debug(`onStateChange-> id:${id} state:${JSON.stringify(state)}`);
 		// Ingore Message with ack=true
 		try {
@@ -59,12 +60,12 @@ class Adguard extends utils.Adapter {
 				return;
 			}
 			// Process filtering change, for this state the API expects a JSON
-			if (id.endsWith(".filtering")){
+			if (id.endsWith(".filtering")) {
 				const jsonBody = JSON.parse(`{"enabled": ${state.val}, "interval": 24}`);
 				await axios.post(new URL("control/filtering/config", serverAddress).href, jsonBody, axiosOptions);
 			}
 			// Process adguard_protection change, for this state the API expects a JSON
-			else if (id.endsWith(".adguard_protection")){
+			else if (id.endsWith(".adguard_protection")) {
 				const jsonBody = JSON.parse(`{"protection_enabled": ${state.val}}`);
 				await axios.post(new URL("control/dns_config", serverAddress).href, jsonBody, axiosOptions);
 			}
@@ -78,7 +79,7 @@ class Adguard extends utils.Adapter {
 				this.setStateAsync(id, { val: state.val, ack: true });
 			}
 		} catch (error) {
-			adapter.log.error(`onStateChange-> error:${error}`);
+			this.log.error(`onStateChange-> error:${error}`);
 		}
 	}
 
@@ -93,9 +94,9 @@ class Adguard extends utils.Adapter {
 	}
 }
 
-async function intervalTick(pollInterval: number): Promise<void> {
+async function intervalTick(adapter: ioBroker.Adapter, pollInterval: number): Promise<void> {
 	// First set info.connection to true
-	setObjectAndState("info.connection", "info.connection", null, true);
+	setObjectAndState(adapter, "info.connection", "info.connection", null, true);
 	// Check if a timeout is still active, delete it if necessary.
 	if (currentTimeout) {
 		clearTimeout(currentTimeout);
@@ -134,17 +135,17 @@ async function intervalTick(pollInterval: number): Promise<void> {
 		};
 
 		// Create channels
-		await setObjectAndState("stats", "stats", null, null);
-		await setObjectAndState("control", "control", null, null);
+		await setObjectAndState(adapter, "stats", "stats", null, null);
+		await setObjectAndState(adapter, "control", "control", null, null);
 		// Create Stats states and set value
 		for (const key in stats) {
 			if (Object.prototype.hasOwnProperty.call(stats, key)) {
 				let value = stats[key];
 				// Convert value of avg_processing_time to miliseconds
-				if (key == "avg_processing_time"){
+				if (key == "avg_processing_time") {
 					value = Math.round(Number(stats[key]) * 1000);
 				}
-				setObjectAndState(`stats.${key}`, `stats.${key}`, null, value);
+				setObjectAndState(adapter, `stats.${key}`, `stats.${key}`, null, value);
 			}
 		}
 
@@ -152,26 +153,26 @@ async function intervalTick(pollInterval: number): Promise<void> {
 		for (const key in control) {
 			// adguard_protection has other properties
 			if (key == "adguard_protection") {
-				setObjectAndState(`control.${key}`, `control.${key}`, null, control[key].protection_enabled);
+				setObjectAndState(adapter, `control.${key}`, `control.${key}`, null, control[key].protection_enabled);
 			}
 			else {
-				setObjectAndState(`control.${key}`, `control.${key}`, null, control[key].enabled);
+				setObjectAndState(adapter, `control.${key}`, `control.${key}`, null, control[key].enabled);
 			}
 		}
 
 	} catch (e) {
-		throwWarn(e);
+		throwWarn(adapter, e);
 	}
 
 	// Check if unload triggerted, if not set timeout for next poll
-	if (!isUnloaded){
+	if (!isUnloaded) {
 		currentTimeout = setTimeout(async () => {
-			intervalTick(pollInterval);
+			intervalTick(adapter, pollInterval);
 		}, pollInterval);
 	}
 }
 
-function throwWarn(error: any): void {
+function throwWarn(adapter: ioBroker.Adapter, error: any): void {
 	let errorMessage = error;
 
 	if (error.response && error.response.data && error.response.data.message) {
@@ -179,10 +180,10 @@ function throwWarn(error: any): void {
 	}
 
 	adapter.log.warn(`No connection to the server could be established. (${errorMessage})`);
-	setObjectAndState("info.connection", "info.connection", null, false);
+	setObjectAndState(adapter, "info.connection", "info.connection", null, false);
 }
 
-async function setObjectAndState(objectId: string, stateId: string, stateName: string | null, value: any | null): Promise<void> {
+async function setObjectAndState(adapter: ioBroker.Adapter, objectId: string, stateId: string, stateName: string | null, value: any | null): Promise<void> {
 	const obj: MyObjectsDefinitions = objectDefinitions[objectId];
 
 	if (!obj) {
