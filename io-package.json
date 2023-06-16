@@ -154,6 +154,11 @@
         ],
         "adminUI": {
             "config": "json"
+        },
+        "localLinks": {
+            "_default": {
+                "link": "%serverAddress%"
+            }
         }
     },
     "native": {
