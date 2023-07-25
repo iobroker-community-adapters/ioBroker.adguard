@@ -13,7 +13,8 @@
                 "it": "cambia l'interfaccia utente in JSONConfig",
                 "es": "cambiar la interfaz de usuario a JSONConfig",
                 "pl": "zmień interfejs użytkownika na JSONConfig",
-                "zh-cn": "将 UI 更改为 JSONConfig"
+                "zh-cn": "将 UI 更改为 JSONConfig",
+                "uk": "змінити інтерфейс користувача на JSONConfig"
             },
             "0.0.7": {
                 "en": "better unload handling",
@@ -25,7 +26,8 @@
                 "it": "migliore gestione dello scarico",
                 "es": "mejor manejo de descarga",
                 "pl": "lepsza obsługa rozładunku",
-                "zh-cn": "更好的卸载处理"
+                "zh-cn": "更好的卸载处理",
+                "uk": "краще розвантаження"
             },
             "0.0.6": {
                 "en": "more resource-efficient handling of the States\nbetter unload handling",
@@ -37,7 +39,8 @@
                 "it": "gestione degli Stati più efficiente sotto il profilo delle risorse\nmigliore gestione dello scarico",
                 "es": "manejo más eficiente de los recursos de los Estados\nmejor manejo de descarga",
                 "pl": "bardziej zasobooszczędna obsługa państw\nlepsza obsługa rozładunku",
-                "zh-cn": "更高效地处理各州\n更好的卸载处理"
+                "zh-cn": "更高效地处理各州\n更好的卸载处理",
+                "uk": "більш ефективне поводження з державами\nкраще розвантаження"
             },
             "0.0.5": {
                 "en": "better background color for dark theme\naccept self signed certificate",
@@ -49,7 +52,8 @@
                 "it": "colore di sfondo migliore per il tema scuro\naccetta il certificato autofirmato",
                 "es": "mejor color de fondo para el tema oscuro\naceptar certificado autofirmado",
                 "pl": "lepszy kolor tła dla ciemnego motywu\nzaakceptuj samopodpisany certyfikat",
-                "zh-cn": "更好的深色主题背景颜色\n接受自签名证书"
+                "zh-cn": "更好的深色主题背景颜色\n接受自签名证书",
+                "uk": "кращий колір фону для темної теми\nприйняти самопідписаний сертифікат"
             },
             "0.0.4": {
                 "en": "Bugfix dark theme",
@@ -61,7 +65,8 @@
                 "it": "Bugfix tema scuro",
                 "es": "Corrección de errores en el tema oscuro",
                 "pl": "Ciemny motyw z poprawkami błędów",
-                "zh-cn": "修复黑暗主题"
+                "zh-cn": "修复黑暗主题",
+                "uk": "Виправлено помилку темної теми"
             },
             "0.0.3": {
                 "en": "added ratio of blocked queries by filtering queries (ratio_blocked_filtering)\nadded ratio of blocked queries by safe browsing (ratio_replaced_safebrowsing)\nadded ratio of blocked queries by parental control (ratio_replaced_parental)\nadded ratio of all blocked DNS queries (ratio_blocked_total)\nadded number of all blocked DNS queries (num_blocked_total)",
@@ -73,7 +78,8 @@
                 "it": "aggiunto rapporto di query bloccate filtrando le query (ratio_blocked_filtering)\naggiunto rapporto di query bloccate tramite navigazione sicura (ratio_replaced_safebrowsing)\naggiunto rapporto di query bloccate dal controllo genitori (ratio_replaced_parental)\naggiunto rapporto di tutte le query DNS bloccate (ratio_blocked_total)\naggiunto il numero di tutte le query DNS bloccate (num_blocked_total)",
                 "es": "Proporción adicional de consultas bloqueadas mediante el filtrado de consultas (ratio_blocked_filtering)\nProporción adicional de consultas bloqueadas por navegación segura (ratio_replaced_safebrowsing)\nProporción adicional de consultas bloqueadas por control parental (ratio_replaced_parental)\nproporción agregada de todas las consultas de DNS bloqueadas (ratio_blocked_total)\nnúmero agregado de todas las consultas de DNS bloqueadas (num_blocked_total)",
                 "pl": "dodano współczynnik zablokowanych zapytań przez filtrowanie zapytań (ratio_blocked_filtering)\ndodano współczynnik blokowanych zapytań przez bezpieczne przeglądanie (ratio_replaced_safebrowsing)\ndodano współczynnik zablokowanych zapytań przez kontrolę rodzicielską (ratio_replaced_parental)\ndodano współczynnik wszystkich zablokowanych zapytań DNS (ratio_blocked_total)\ndodano liczbę wszystkich zablokowanych zapytań DNS (num_blocked_total)",
-                "zh-cn": "通过过滤查询添加阻塞查询的比率（ratio_blocked_filtering）\n通过安全浏览添加阻止查询的比率（ratio_replaced_safebrowsing）\n添加了家长控制阻止查询的比率（ratio_replaced_parental）\n添加的所有被阻止的 DNS 查询的比率 (ratio_blocked_total)\n添加了所有被阻止的 DNS 查询的数量 (num_blocked_total)"
+                "zh-cn": "通过过滤查询添加阻塞查询的比率（ratio_blocked_filtering）\n通过安全浏览添加阻止查询的比率（ratio_replaced_safebrowsing）\n添加了家长控制阻止查询的比率（ratio_replaced_parental）\n添加的所有被阻止的 DNS 查询的比率 (ratio_blocked_total)\n添加了所有被阻止的 DNS 查询的数量 (num_blocked_total)",
+                "uk": "додано співвідношення заблокованих запитів шляхом фільтрації запитів (ratio_blocked_filtering)\nдодано співвідношення заблокованих запитів безпечним переглядом (ratio_replaced_safebrowsing)\nдодано співвідношення заблокованих запитів батьківським контролем (ratio_replaced_parental)\nдоданий коефіцієнт усіх заблокованих запитів DNS (ratio_blocked_total)\nдодано кількість усіх заблокованих запитів DNS (num_blocked_total)"
             },
             "0.0.2": {
                 "en": "first usable version",
@@ -85,7 +91,8 @@
                 "it": "prima versione utilizzabile",
                 "es": "primera versión utilizable",
                 "pl": "pierwsza użyteczna wersja",
-                "zh-cn": "第一个可用版本"
+                "zh-cn": "第一个可用版本",
+                "uk": "перша доступна версія"
             },
             "0.0.1": {
                 "en": "initial release",
@@ -97,10 +104,10 @@
                 "it": "Versione iniziale",
                 "es": "Versión inicial",
                 "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
+                "zh-cn": "首次出版",
+                "uk": "початковий випуск"
             }
         },
-        "title": "AdGuard",
         "titleLang": {
             "en": "AdGuard ",
             "de": "AdGuard",
@@ -111,7 +118,8 @@
             "it": "AdGuard",
             "es": "AdGuard",
             "pl": "AdGuard",
-            "zh-cn": "广告卫士"
+            "zh-cn": "广告卫士",
+            "uk": "AdGuard"
         },
         "desc": {
             "en": "AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental control (adult content blocking) capabilities. The AdGuard integration allows you to control and monitor your AdGuard Home instance in ioBroker.",
@@ -123,7 +131,8 @@
             "it": "AdGuard Home è un server DNS che blocca annunci e tracker su tutta la rete con funzionalità di controllo genitori (blocco dei contenuti per adulti). ",
             "es": "AdGuard Home es un servidor DNS de bloqueo de rastreadores y anuncios en toda la red con capacidades de control parental (bloqueo de contenido para adultos). ",
             "pl": "AdGuard Home to serwer DNS blokujący reklamy i moduły śledzące w całej sieci z funkcjami kontroli rodzicielskiej (blokowanie treści dla dorosłych). ",
-            "zh-cn": "AdGuard Home 是具有家长控制（成人内容阻止）功能的全网络广告和跟踪器阻止 DNS 服务器。 "
+            "zh-cn": "AdGuard Home 是具有家长控制（成人内容阻止）功能的全网络广告和跟踪器阻止 DNS 服务器。 ",
+            "uk": "AdGuard Home — це мережевий DNS-сервер, який блокує рекламу та трекери з можливостями батьківського контролю (блокування вмісту для дорослих). Інтеграція AdGuard дозволяє контролювати та відстежувати свій екземпляр AdGuard Home в ioBroker."
         },
         "authors": [
             "Dennis Rathjen <dennis.rathjen@outlook.de>"
