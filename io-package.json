@@ -135,7 +135,8 @@
             "uk": "AdGuard Home — це мережевий DNS-сервер, який блокує рекламу та трекери з можливостями батьківського контролю (блокування вмісту для дорослих). Інтеграція AdGuard дозволяє контролювати та відстежувати свій екземпляр AdGuard Home в ioBroker."
         },
         "authors": [
-            "Dennis Rathjen <dennis.rathjen@outlook.de>"
+            "Dennis Rathjen <dennis.rathjen@outlook.de>",
+            "Iobroker Community<iobroker-community-adapters@gmx.de>"
         ],
         "keywords": [
             "AdGuard",
@@ -147,8 +148,8 @@
         "platform": "Javascript/Node.js",
         "icon": "adguard.png",
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/o0shojo0o/ioBroker.adguard/master/admin/adguard.png",
-        "readme": "https://github.com/o0shojo0o/ioBroker.adguard/blob/master/README.md",
+        "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.adguard/master/admin/adguard.png",
+        "readme": "https://github.com/iobroker-community-adapters/ioBroker.adguard/blob/master/README.md",
         "loglevel": "info",
         "mode": "daemon",
         "type": "network",
