@@ -16,6 +16,14 @@
 
 AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental control (adult content blocking) capabilities. The AdGuard adapter allows you to control and monitor your AdGuard Home instance in ioBroker.
 
+## Credits
+
+This adapter would not have been possible without the great work of @o0Shojo0o (https://github.com/o0Shojo0o), who developed former releases of this adapter.
+
+## How to report issues and feature requests
+
+Ideally, please use GitHub issues for this, with the best method achieved by setting the adapter to Debug log mode (Instances -> Expert mode -> Column Log level). Then retrieve the logfile from disk via the  'log' ioBroker subdirectory, **not** from Admin, which will cut lines. 
+
 ## Configuration
 
 1. Create a new instance of the adapter
@@ -27,13 +35,13 @@ AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental
 ## Changelog
 
 <!--
- https://github.com/AlCalzone/release-script#usage
-    npm run release minor -- --all 0.9.8 -> 0.10.0
-    npm run release patch -- --all 0.9.8 -> 0.9.9
-    npm run release prerelease beta -- --all v0.2.1 -> v0.2.2-beta.0
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+- (mcm1957) Adapter has been moved to iobroker-community-adapter organisation.
+- (mcm1957) Dependencies have been updated.
 
 ### 0.0.8 (2021-08-18)
 
