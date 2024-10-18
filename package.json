@@ -16,6 +16,7 @@
   "homepage": "https://github.com/iobroker-community-adapters/ioBroker.adguard",
   "license": "MIT",
   "keywords": [
+    "ioBroker",
     "AdGuard",
     "DNS",
     "tracker-blocking",
