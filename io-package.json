@@ -159,7 +159,12 @@
         "materialize": true,
         "dependencies": [
             {
-                "js-controller": ">=3.1.0"
+                "js-controller": ">=5.0.19"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=6.17.14"
             }
         ],
         "adminUI": {
