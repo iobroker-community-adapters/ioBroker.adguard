@@ -1,166 +1,179 @@
 {
-    "common": {
-        "name": "adguard",
-        "version": "0.0.8",
-        "news": {
-            "0.0.8": {
-                "en": "change UI to JSONConfig",
-                "de": "Ändern Sie die Benutzeroberfläche in JSONConfig",
-                "ru": "изменить пользовательский интерфейс на JSONConfig",
-                "pt": "alterar a IU para JSONConfig",
-                "nl": "verander gebruikersinterface in JSONConfig",
-                "fr": "changer l'interface utilisateur en JSONConfig",
-                "it": "cambia l'interfaccia utente in JSONConfig",
-                "es": "cambiar la interfaz de usuario a JSONConfig",
-                "pl": "zmień interfejs użytkownika na JSONConfig",
-                "zh-cn": "将 UI 更改为 JSONConfig",
-                "uk": "змінити інтерфейс користувача на JSONConfig"
-            },
-            "0.0.7": {
-                "en": "better unload handling",
-                "de": "besseres Entladehandling",
-                "ru": "лучшая разгрузка",
-                "pt": "melhor manuseio de descarga",
-                "nl": "betere losbehandeling",
-                "fr": "meilleure gestion du déchargement",
-                "it": "migliore gestione dello scarico",
-                "es": "mejor manejo de descarga",
-                "pl": "lepsza obsługa rozładunku",
-                "zh-cn": "更好的卸载处理",
-                "uk": "краще розвантаження"
-            },
-            "0.0.6": {
-                "en": "more resource-efficient handling of the States\nbetter unload handling",
-                "de": "ressourceneffizienterer Umgang mit den Staaten\nbesseres Entladehandling",
-                "ru": "более ресурсоэффективное управление штатами\nлучшая разгрузка",
-                "pt": "manejo mais eficiente dos recursos dos Estados\nmelhor manuseio de descarga",
-                "nl": "meer hulpbronnenefficiënte behandeling van de staten\nbetere losbehandeling",
-                "fr": "une gestion plus efficace des ressources des États\nmeilleure gestion du déchargement",
-                "it": "gestione degli Stati più efficiente sotto il profilo delle risorse\nmigliore gestione dello scarico",
-                "es": "manejo más eficiente de los recursos de los Estados\nmejor manejo de descarga",
-                "pl": "bardziej zasobooszczędna obsługa państw\nlepsza obsługa rozładunku",
-                "zh-cn": "更高效地处理各州\n更好的卸载处理",
-                "uk": "більш ефективне поводження з державами\nкраще розвантаження"
-            },
-            "0.0.5": {
-                "en": "better background color for dark theme\naccept self signed certificate",
-                "de": "bessere Hintergrundfarbe für dunkles Thema\nSelbstsigniertes Zertifikat akzeptieren",
-                "ru": "лучший цвет фона для темной темы\nпринять самоподписанный сертификат",
-                "pt": "melhor cor de fundo para o tema escuro\naceitar certificado autoassinado",
-                "nl": "betere achtergrondkleur voor donker thema\naccepteer zelfondertekend certificaat",
-                "fr": "meilleure couleur de fond pour le thème sombre\naccepter le certificat auto-signé",
-                "it": "colore di sfondo migliore per il tema scuro\naccetta il certificato autofirmato",
-                "es": "mejor color de fondo para el tema oscuro\naceptar certificado autofirmado",
-                "pl": "lepszy kolor tła dla ciemnego motywu\nzaakceptuj samopodpisany certyfikat",
-                "zh-cn": "更好的深色主题背景颜色\n接受自签名证书",
-                "uk": "кращий колір фону для темної теми\nприйняти самопідписаний сертифікат"
-            }
-        },
-        "titleLang": {
-            "en": "AdGuard ",
-            "de": "AdGuard",
-            "ru": "AdGuard",
-            "pt": "AdGuard",
-            "nl": "AdGuard",
-            "fr": "AdGuard",
-            "it": "AdGuard",
-            "es": "AdGuard",
-            "pl": "AdGuard",
-            "zh-cn": "广告卫士",
-            "uk": "AdGuard"
-        },
-        "desc": {
-            "en": "AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental control (adult content blocking) capabilities. The AdGuard integration allows you to control and monitor your AdGuard Home instance in ioBroker.",
-            "de": "AdGuard Home ist ein netzwerkweiter DNS-Server zum Blockieren von Werbung und Trackern mit Funktionen zur Kindersicherung (Blockierung von Inhalten für Erwachsene). ",
-            "ru": "AdGuard Home - это общесетевой DNS-сервер, блокирующий рекламу и трекер, с возможностями родительского контроля (блокировка контента для взрослых). ",
-            "pt": "O AdGuard Home é um servidor DNS de bloqueio de rastreadores e anúncios em toda a rede com recursos de controle dos pais (bloqueio de conteúdo adulto). ",
-            "nl": "AdGuard Home is een netwerkbrede advertentie- en trackerblokkerende DNS-server met mogelijkheden voor ouderlijk toezicht (blokkering van inhoud voor volwassenen). ",
-            "fr": "AdGuard Home est un serveur DNS bloquant les publicités et les traqueurs à l'échelle du réseau avec des capacités de contrôle parental (blocage de contenu pour adultes). ",
-            "it": "AdGuard Home è un server DNS che blocca annunci e tracker su tutta la rete con funzionalità di controllo genitori (blocco dei contenuti per adulti). ",
-            "es": "AdGuard Home es un servidor DNS de bloqueo de rastreadores y anuncios en toda la red con capacidades de control parental (bloqueo de contenido para adultos). ",
-            "pl": "AdGuard Home to serwer DNS blokujący reklamy i moduły śledzące w całej sieci z funkcjami kontroli rodzicielskiej (blokowanie treści dla dorosłych). ",
-            "zh-cn": "AdGuard Home 是具有家长控制（成人内容阻止）功能的全网络广告和跟踪器阻止 DNS 服务器。 ",
-            "uk": "AdGuard Home — це мережевий DNS-сервер, який блокує рекламу та трекери з можливостями батьківського контролю (блокування вмісту для дорослих). Інтеграція AdGuard дозволяє контролювати та відстежувати свій екземпляр AdGuard Home в ioBroker."
-        },
-        "authors": [
-            "Dennis Rathjen <dennis.rathjen@outlook.de>",
-            "Iobroker Community<iobroker-community-adapters@gmx.de>"
-        ],
-        "keywords": [
-            "AdGuard",
-            "DNS",
-            "tracker-blocking",
-            "ad-blocking"
-        ],
-        "licenseInformation": {
-            "type": "free",
-            "license": "MIT"
-        },
-        "platform": "Javascript/Node.js",
-        "icon": "adguard.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.adguard/master/admin/adguard.png",
-        "readme": "https://github.com/iobroker-community-adapters/ioBroker.adguard/blob/master/README.md",
-        "loglevel": "info",
-        "tier": 3,
-        "mode": "daemon",
-        "type": "network",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "dependencies": [
-            {
-                "js-controller": ">=5.0.19"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=6.17.14"
-            }
-        ],
-        "adminUI": {
-            "config": "json"
-        },
-        "localLinks": {
-            "_default": {
-                "link": "%serverAddress%"
-            }
-        }
+  "common": {
+    "name": "adguard",
+    "version": "1.0.0-alpha.0",
+    "news": {
+      "1.0.0-alpha.0": {
+        "en": "Adapter has been moved to iobroker-community-adapter organisation.\nAdapter requires js-controller 5, admin 6 and node.js 20 now.\nDependencies have been updated.",
+        "de": "Adapter wurde in die iobroker-community-Adapter-Organisation verschoben.\nAdapter benötigt jetzt js-controller 5, admin 6 und node.js 20.\nAbhängigkeiten wurden aktualisiert.",
+        "ru": "Адаптер был перемещен в организацию iobroker-community-adapter.\nAdapter requires js-controller 5, admin 6 and node.js 20 now.\nЗависимость была обновлена.",
+        "pt": "Adapter foi transferido para a organização iobroker-community-adapter.\nAdaptador requer js-controller 5, admin 6 e node.js 20 agora.\nAs dependências foram atualizadas.",
+        "nl": "Adapter is verplaatst naar iobroker-community-adapter organisatie.\nAdapter vereist js-controller 5, admin 6 en node.js 20 nu.\nAfhankelijkheden zijn bijgewerkt.",
+        "fr": "L'adaptateur a été transféré à l'organisation iobroker-community-adaptateur.\nAdaptateur nécessite js-controller 5, admin 6 et node.js 20 maintenant.\nLes dépendances ont été actualisées.",
+        "it": "L'adattatore è stato spostato nell'organizzazione di iobroker-community-adapter.\nAdattatore richiede js-controller 5, admin 6 e node.js 20 ora.\nLe dipendenze sono state aggiornate.",
+        "es": "El adaptador ha sido trasladado a la organización yobroker-community-adapter.\nAdaptador requiere js-controller 5, admin 6 y node.js 20 ahora.\nSe han actualizado las dependencias.",
+        "pl": "Adapter został przeniesiony do organizacji iobroker- community- adapter.\nAdapter wymaga sterownika js- controller 5, admin 6 i node.js 20.\nZaktualizowano zależność.",
+        "uk": "Переміщено перехід на iobroker-community-adapter.\nАдаптер вимагає js-controller 5, admin 6 і node.js 20 тепер.\nОновлено залежність.",
+        "zh-cn": "适应者已经转移到了职业经纪人-社区适应者组织.\n适配器现在需要js控制器5,admin 6和节点20.js.\n附属关系已经更新."
+      },
+      "0.0.8": {
+        "en": "change UI to JSONConfig",
+        "de": "Ändern Sie die Benutzeroberfläche in JSONConfig",
+        "ru": "изменить пользовательский интерфейс на JSONConfig",
+        "pt": "alterar a IU para JSONConfig",
+        "nl": "verander gebruikersinterface in JSONConfig",
+        "fr": "changer l'interface utilisateur en JSONConfig",
+        "it": "cambia l'interfaccia utente in JSONConfig",
+        "es": "cambiar la interfaz de usuario a JSONConfig",
+        "pl": "zmień interfejs użytkownika na JSONConfig",
+        "zh-cn": "将 UI 更改为 JSONConfig",
+        "uk": "змінити інтерфейс користувача на JSONConfig"
+      },
+      "0.0.7": {
+        "en": "better unload handling",
+        "de": "besseres Entladehandling",
+        "ru": "лучшая разгрузка",
+        "pt": "melhor manuseio de descarga",
+        "nl": "betere losbehandeling",
+        "fr": "meilleure gestion du déchargement",
+        "it": "migliore gestione dello scarico",
+        "es": "mejor manejo de descarga",
+        "pl": "lepsza obsługa rozładunku",
+        "zh-cn": "更好的卸载处理",
+        "uk": "краще розвантаження"
+      },
+      "0.0.6": {
+        "en": "more resource-efficient handling of the States\nbetter unload handling",
+        "de": "ressourceneffizienterer Umgang mit den Staaten\nbesseres Entladehandling",
+        "ru": "более ресурсоэффективное управление штатами\nлучшая разгрузка",
+        "pt": "manejo mais eficiente dos recursos dos Estados\nmelhor manuseio de descarga",
+        "nl": "meer hulpbronnenefficiënte behandeling van de staten\nbetere losbehandeling",
+        "fr": "une gestion plus efficace des ressources des États\nmeilleure gestion du déchargement",
+        "it": "gestione degli Stati più efficiente sotto il profilo delle risorse\nmigliore gestione dello scarico",
+        "es": "manejo más eficiente de los recursos de los Estados\nmejor manejo de descarga",
+        "pl": "bardziej zasobooszczędna obsługa państw\nlepsza obsługa rozładunku",
+        "zh-cn": "更高效地处理各州\n更好的卸载处理",
+        "uk": "більш ефективне поводження з державами\nкраще розвантаження"
+      },
+      "0.0.5": {
+        "en": "better background color for dark theme\naccept self signed certificate",
+        "de": "bessere Hintergrundfarbe für dunkles Thema\nSelbstsigniertes Zertifikat akzeptieren",
+        "ru": "лучший цвет фона для темной темы\nпринять самоподписанный сертификат",
+        "pt": "melhor cor de fundo para o tema escuro\naceitar certificado autoassinado",
+        "nl": "betere achtergrondkleur voor donker thema\naccepteer zelfondertekend certificaat",
+        "fr": "meilleure couleur de fond pour le thème sombre\naccepter le certificat auto-signé",
+        "it": "colore di sfondo migliore per il tema scuro\naccetta il certificato autofirmato",
+        "es": "mejor color de fondo para el tema oscuro\naceptar certificado autofirmado",
+        "pl": "lepszy kolor tła dla ciemnego motywu\nzaakceptuj samopodpisany certyfikat",
+        "zh-cn": "更好的深色主题背景颜色\n接受自签名证书",
+        "uk": "кращий колір фону для темної теми\nприйняти самопідписаний сертифікат"
+      }
     },
-    "native": {
-        "serverAddress": "",
-        "pollInterval": "10",
-        "user": "",
-        "password": ""
+    "titleLang": {
+      "en": "AdGuard ",
+      "de": "AdGuard",
+      "ru": "AdGuard",
+      "pt": "AdGuard",
+      "nl": "AdGuard",
+      "fr": "AdGuard",
+      "it": "AdGuard",
+      "es": "AdGuard",
+      "pl": "AdGuard",
+      "zh-cn": "广告卫士",
+      "uk": "AdGuard"
     },
-    "protectedNative": [
-        "password"
+    "desc": {
+      "en": "AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental control (adult content blocking) capabilities. The AdGuard integration allows you to control and monitor your AdGuard Home instance in ioBroker.",
+      "de": "AdGuard Home ist ein netzwerkweiter DNS-Server zum Blockieren von Werbung und Trackern mit Funktionen zur Kindersicherung (Blockierung von Inhalten für Erwachsene). ",
+      "ru": "AdGuard Home - это общесетевой DNS-сервер, блокирующий рекламу и трекер, с возможностями родительского контроля (блокировка контента для взрослых). ",
+      "pt": "O AdGuard Home é um servidor DNS de bloqueio de rastreadores e anúncios em toda a rede com recursos de controle dos pais (bloqueio de conteúdo adulto). ",
+      "nl": "AdGuard Home is een netwerkbrede advertentie- en trackerblokkerende DNS-server met mogelijkheden voor ouderlijk toezicht (blokkering van inhoud voor volwassenen). ",
+      "fr": "AdGuard Home est un serveur DNS bloquant les publicités et les traqueurs à l'échelle du réseau avec des capacités de contrôle parental (blocage de contenu pour adultes). ",
+      "it": "AdGuard Home è un server DNS che blocca annunci e tracker su tutta la rete con funzionalità di controllo genitori (blocco dei contenuti per adulti). ",
+      "es": "AdGuard Home es un servidor DNS de bloqueo de rastreadores y anuncios en toda la red con capacidades de control parental (bloqueo de contenido para adultos). ",
+      "pl": "AdGuard Home to serwer DNS blokujący reklamy i moduły śledzące w całej sieci z funkcjami kontroli rodzicielskiej (blokowanie treści dla dorosłych). ",
+      "zh-cn": "AdGuard Home 是具有家长控制（成人内容阻止）功能的全网络广告和跟踪器阻止 DNS 服务器。 ",
+      "uk": "AdGuard Home — це мережевий DNS-сервер, який блокує рекламу та трекери з можливостями батьківського контролю (блокування вмісту для дорослих). Інтеграція AdGuard дозволяє контролювати та відстежувати свій екземпляр AdGuard Home в ioBroker."
+    },
+    "authors": [
+      "Dennis Rathjen <dennis.rathjen@outlook.de>",
+      "Iobroker Community<iobroker-community-adapters@gmx.de>"
     ],
-    "encryptedNative": [
-        "password"
+    "keywords": [
+      "AdGuard",
+      "DNS",
+      "tracker-blocking",
+      "ad-blocking"
     ],
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
-    ]
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
+    "platform": "Javascript/Node.js",
+    "icon": "adguard.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.adguard/master/admin/adguard.png",
+    "readme": "https://github.com/iobroker-community-adapters/ioBroker.adguard/blob/master/README.md",
+    "loglevel": "info",
+    "tier": 3,
+    "mode": "daemon",
+    "type": "network",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.19"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.17.14"
+      }
+    ],
+    "adminUI": {
+      "config": "json"
+    },
+    "localLinks": {
+      "_default": {
+        "link": "%serverAddress%"
+      }
+    }
+  },
+  "native": {
+    "serverAddress": "",
+    "pollInterval": "10",
+    "user": "",
+    "password": ""
+  },
+  "protectedNative": [
+    "password"
+  ],
+  "encryptedNative": [
+    "password"
+  ],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
