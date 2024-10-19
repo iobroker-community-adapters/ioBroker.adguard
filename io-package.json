@@ -92,19 +92,22 @@
             "tracker-blocking",
             "ad-blocking"
         ],
-        "license": "MIT",
+        "licenseInformation": {
+            "type": "free",
+            "license": "MIT"
+        },
         "platform": "Javascript/Node.js",
         "icon": "adguard.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.adguard/master/admin/adguard.png",
         "readme": "https://github.com/iobroker-community-adapters/ioBroker.adguard/blob/master/README.md",
         "loglevel": "info",
+        "tier": 3,
         "mode": "daemon",
         "type": "network",
         "compact": true,
         "connectionType": "local",
         "dataSource": "poll",
-        "materialize": true,
         "dependencies": [
             {
                 "js-controller": ">=5.0.19"
