@@ -41,7 +41,7 @@ Ideally, please use GitHub issues for this, with the best method achieved by set
 
 ### **WORK IN PROGRESS**
 - (mcm1957) Adapter has been moved to iobroker-community-adapter organisation.
-- (mcm1957) Adapter requires js-controller 5, admin 6 and node.js 18 now.
+- (mcm1957) Adapter requires js-controller 5, admin 6 and node.js 20 now.
 - (mcm1957) Dependencies have been updated.
 
 ### 0.0.8 (2021-08-18)

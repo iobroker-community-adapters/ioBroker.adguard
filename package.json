@@ -26,6 +26,9 @@
     "type": "git",
     "url": "https://github.com/iobroker-community-adapters/ioBroker.adguard"
   },
+  "engines": {
+    "node": ">= 20"
+  },
   "dependencies": {
     "@iobroker/adapter-core": "^3.2.2",
     "axios": "^1.7.7"
