@@ -1,6 +1,6 @@
 {
   "name": "iobroker.adguard",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0",
   "description": "AdGuard Home is a network-wide ad- and tracker-blocking DNS server with parental control (adult content blocking) capabilities. The AdGuard integration allows you to control and monitor your AdGuard Home instance in ioBroker.",
   "author": {
     "name": "Dennis Rathjen",
