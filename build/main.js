@@ -206,6 +206,7 @@ async function setObjectAndState(adapter, objectId, stateId, stateName, value) {
     }
     // Check if the object must be created
     if (createdObjs.indexOf(stateId) === -1) {
+        // @ts-expect-error
         await adapter.setObjectNotExistsAsync(stateId, {
             type: obj.type,
             common: JSON.parse(JSON.stringify(obj.common)),
