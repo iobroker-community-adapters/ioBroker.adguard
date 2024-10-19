@@ -63,11 +63,10 @@
   "files": [
     "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
     "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
-    "lib/",
+    "build/",
     "www/",
     "io-package.json",
-    "LICENSE",
-    "main.js"
+    "LICENSE"
   ],
   "scripts": {
     "prebuild": "rimraf ./build",
