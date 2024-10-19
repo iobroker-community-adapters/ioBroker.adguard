@@ -62,6 +62,15 @@
     "typescript": "^5.6.3"
   },
   "main": "build/main.js",
+  "files": [
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
+    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+    "lib/",
+    "www/",
+    "io-package.json",
+    "LICENSE",
+    "main.js"
+  ],
   "scripts": {
     "prebuild": "rimraf ./build",
     "build:ts": "tsc -p tsconfig.build.json",
