@@ -6,13 +6,16 @@
             "newLine": true,
             "type": "text",
             "label": "Server Address",
+            "xs": 12,
             "sm": 12,
             "md": 4,
-            "lg": 3
+            "lg": 3,
+            "xl": 3
         },
         "pollInterval": {
             "type": "number",
             "label": "Poll Interval (sec.)",
+            "xs": 12,
             "sm": 12,
             "md": 4,
             "lg": 3
@@ -21,17 +24,21 @@
             "newLine": true,
             "type": "text",
             "label": "User",
+            "xs": 12,
             "sm": 12,
             "md": 4,
-            "lg": 3
+            "lg": 3,
+            "xl": 3
         },
         "password": {
             "type": "password",
             "label": "Password",
             "repeat": true,
+            "xs": 12,
             "sm": 12,
             "md": 8,
-            "lg": 6
+            "lg": 6,
+            "xl": 6
         }
     }
 }
