@@ -37,7 +37,7 @@ Ideally, please use GitHub issues for this, with the best method achieved by set
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.0.1 (2024-10-26)
 - (simatec) Admin-UI has been adapted for small displays.
 - (mcm1957) Dependencies have been updated.
 
@@ -58,11 +58,6 @@ Ideally, please use GitHub issues for this, with the best method achieved by set
 
 -   (o0Shojo0o) more resource-efficient handling of the States
 -   (o0Shojo0o) better unload handling
-
-### 0.0.5 (2021-07-19)
-
--   (o0Shojo0o) better background color for dark theme
--   (o0Shojo0o) accept self signed certificate
 
 ## License
 

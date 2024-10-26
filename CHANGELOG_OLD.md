@@ -1,4 +1,9 @@
 # Older changes
+## 0.0.5 (2021-07-19)
+
+-   (o0Shojo0o) better background color for dark theme
+-   (o0Shojo0o) accept self signed certificate
+
 ## 0.0.4 (2021-07-13)
 
 -   (o0Shojo0o) Bugfix dark theme
