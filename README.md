@@ -67,7 +67,7 @@ Ideally, please use GitHub issues for this, with the best method achieved by set
 
 MIT License
 
-Copyright (c) 2024 iobroker-community-adapters <iobroker-community-adapters@gmx.de>  
+Copyright (c) 2024-2025 iobroker-community-adapters <iobroker-community-adapters@gmx.de>  
 Copyright (c) 2023 Dennis Rathjen <info@bastelbunker.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
