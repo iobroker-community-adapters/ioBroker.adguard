@@ -37,7 +37,7 @@ Ideally, please use GitHub issues for this, with the best method achieved by set
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.1.0 (2025-09-07)
 - (mcm1957) Adapter requires admin >= 7.6.17, js-controller >= 6.0.11 and node.js >= 20 now.
 - (mcm1957) Dependencies have been updated.
 
@@ -56,11 +56,6 @@ Ideally, please use GitHub issues for this, with the best method achieved by set
 
 ### 0.0.7 (2021-08-01)
 
--   (o0Shojo0o) better unload handling
-
-### 0.0.6 (2021-08-01)
-
--   (o0Shojo0o) more resource-efficient handling of the States
 -   (o0Shojo0o) better unload handling
 
 ## License
