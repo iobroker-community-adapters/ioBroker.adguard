@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "adguard",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "news": {
+      "1.1.1": {
+        "en": "Dependencies have been updated.",
+        "de": "Abhängigkeiten wurden aktualisiert.",
+        "ru": "Зависимости были обновлены.",
+        "pt": "As dependências foram atualizadas.",
+        "nl": "Afhankelijkheden zijn bijgewerkt.",
+        "fr": "Les dépendances ont été actualisées.",
+        "it": "Le dipendenze sono state aggiornate.",
+        "es": "Se han actualizado las dependencias.",
+        "pl": "Zaktualizowano zależność.",
+        "uk": "Оновлено залежність.",
+        "zh-cn": "附属关系已经更新."
+      },
       "1.1.0": {
         "en": "Adapter requires admin >= 7.6.17, js-controller >= 6.0.11 and node.js >= 20 now.\nDependencies have been updated.",
         "de": "Adapter benötigt admin >= 7.6.17, js-controller >= 6.0.11 und node.js >= 20 jetzt.\nAbhängigkeiten wurden aktualisiert.",
@@ -80,19 +93,6 @@
         "pl": "bardziej zasobooszczędna obsługa państw\nlepsza obsługa rozładunku",
         "zh-cn": "更高效地处理各州\n更好的卸载处理",
         "uk": "більш ефективне поводження з державами\nкраще розвантаження"
-      },
-      "0.0.5": {
-        "en": "better background color for dark theme\naccept self signed certificate",
-        "de": "bessere Hintergrundfarbe für dunkles Thema\nSelbstsigniertes Zertifikat akzeptieren",
-        "ru": "лучший цвет фона для темной темы\nпринять самоподписанный сертификат",
-        "pt": "melhor cor de fundo para o tema escuro\naceitar certificado autoassinado",
-        "nl": "betere achtergrondkleur voor donker thema\naccepteer zelfondertekend certificaat",
-        "fr": "meilleure couleur de fond pour le thème sombre\naccepter le certificat auto-signé",
-        "it": "colore di sfondo migliore per il tema scuro\naccetta il certificato autofirmato",
-        "es": "mejor color de fondo para el tema oscuro\naceptar certificado autofirmado",
-        "pl": "lepszy kolor tła dla ciemnego motywu\nzaakceptuj samopodpisany certyfikat",
-        "zh-cn": "更好的深色主题背景颜色\n接受自签名证书",
-        "uk": "кращий колір фону для темної теми\nприйняти самопідписаний сертифікат"
       }
     },
     "titleLang": {

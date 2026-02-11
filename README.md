@@ -37,7 +37,7 @@ Ideally, please use GitHub issues for this, with the best method achieved by set
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.1.1 (2026-02-11)
 - (mcm1957) Dependencies have been updated.
 
 ### 1.1.0 (2025-09-07)
@@ -56,10 +56,6 @@ Ideally, please use GitHub issues for this, with the best method achieved by set
 ### 0.0.8 (2021-08-18)
 
 -   (o0Shojo0o) change UI to JSONConfig
-
-### 0.0.7 (2021-08-01)
-
--   (o0Shojo0o) better unload handling
 
 ## License
 
