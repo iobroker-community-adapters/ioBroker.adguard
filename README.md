@@ -37,6 +37,9 @@ Ideally, please use GitHub issues for this, with the best method achieved by set
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (mcm1957) Dependencies have been updated.
+
 ### 1.1.0 (2025-09-07)
 - (mcm1957) Adapter requires admin >= 7.6.17, js-controller >= 6.0.11 and node.js >= 20 now.
 - (mcm1957) Dependencies have been updated.
