@@ -6,7 +6,7 @@ import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import type { MyObjectsDefinitions } from './lib/object_definitions';
 import { objectDefinitions } from './lib/object_definitions';
-import * as https from 'https';
+import * as https from 'node:https';
 
 //let adapter: ioBroker.Adapter;
 let currentTimeout: NodeJS.Timeout;
